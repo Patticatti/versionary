@@ -3,15 +3,13 @@
 import * as React from "react";
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
   Command,
-  Frame,
+  File,
+  House,
+  FilePenLine,
+  Blocks,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
+  Settings,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -20,6 +18,7 @@ import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
+  SidebarTrigger,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
@@ -35,17 +34,17 @@ const data = {
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "my-startup",
       logo: GalleryVerticalEnd,
       plan: "Enterprise",
     },
     {
-      name: "Acme Corp.",
+      name: "sigma",
       logo: AudioWaveform,
       plan: "Startup",
     },
     {
-      name: "Evil Corp.",
+      name: "cool-site",
       logo: Command,
       plan: "Free",
     },
@@ -53,41 +52,23 @@ const data = {
   navMain: [
     {
       title: "Project Overview",
-      url: "#",
-      icon: SquareTerminal,
+      url: "/dashboard",
+      icon: House,
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
+      title: "Editor",
+      url: "/editor",
+      icon: FilePenLine,
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      title: "Integrations",
+      url: "/integrations",
+      icon: Blocks,
     },
     {
       title: "Settings",
-      url: "#",
-      icon: Settings2,
+      url: "/settings",
+      icon: Settings,
       items: [
         {
           title: "General",
@@ -110,19 +91,19 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "2025-02-24.acacia",
       url: "#",
-      icon: Frame,
+      icon: File,
     },
     {
-      name: "Sales & Marketing",
+      name: "2025-02-16.acacia",
       url: "#",
-      icon: PieChart,
+      icon: File,
     },
     {
-      name: "Travel",
+      name: "2025-02-09.acacia",
       url: "#",
-      icon: Map,
+      icon: File,
     },
   ],
 };
@@ -130,8 +111,9 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
+      <SidebarHeader className="flex justify-between gap-4">
         <TeamSwitcher teams={data.teams} />
+        <SidebarTrigger className="-ml-1" />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

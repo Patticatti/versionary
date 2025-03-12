@@ -7,6 +7,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { LucideIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export function NavMain({
   items,
@@ -22,12 +23,16 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const pathName = usePathname();
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+    <SidebarGroup className="pt-6">
+      <SidebarGroupLabel className="hidden">Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <SidebarMenuItem key={item.title}>
+          <SidebarMenuItem
+            key={item.title}
+            className={pathName === item.url ? "text-[#1E64EC]" : ""}
+          >
             <SidebarMenuButton asChild>
               <a href={item.url}>
                 <item.icon />
