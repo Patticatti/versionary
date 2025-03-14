@@ -8,9 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   fetchUserRepos,
-  fetchCommitMessages,
   fetchGroupedCommits,
-  fetchCommitMessagesRange,
 } from "@/utils/github/actions";
 
 // Debounce helper function
