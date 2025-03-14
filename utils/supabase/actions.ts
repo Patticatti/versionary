@@ -2,7 +2,6 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
 
 export async function getUserProfile() {
   const supabase = await createClient();
@@ -21,13 +20,6 @@ export async function getUserProfile() {
   }
 
   return user;
-}
-
-export async function signOut() {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
-  revalidatePath("/", "layout");
-  redirect("/");
 }
 
 export async function signInWithGitHub() {

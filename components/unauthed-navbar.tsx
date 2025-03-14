@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { signInWithGitHub, signOut } from "@/utils/supabase/actions";
+import { signInWithGitHub } from "@/utils/supabase/actions";
 import { User } from "@supabase/supabase-js";
 export default async function Navbar({ user }: { user: User | null }) {
   return (
@@ -14,7 +14,9 @@ export default async function Navbar({ user }: { user: User | null }) {
         {user ? (
           <div className="flex items-center gap-4">
             <p>Welcome, {user.user_metadata.name}</p>
-            <Button onClick={signOut}>Log out</Button>
+            <form action="/auth/signout" method="post">
+              <Button type="submit">Log out</Button>
+            </form>
           </div>
         ) : (
           <div className="flex gap-2">
