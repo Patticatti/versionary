@@ -1,26 +1,31 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
-  const accessToken = req.headers.get("Authorization")?.split("Bearer ")[1];
+export async function GET() {
+  const GITHUB_ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN;
+  const GITHUB_API_URL = "https://api.github.com/user/repos";
 
-  if (!accessToken) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const res = await fetch("https://api.github.com/user/repos", {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Accept: "application/vnd.github.v3+json",
-    },
-  });
-
-  if (!res.ok) {
+  if (!GITHUB_ACCESS_TOKEN) {
     return NextResponse.json(
-      { error: "Failed to fetch repos" },
-      { status: res.status }
+      { error: "GitHub token is missing" },
+      { status: 500 }
     );
   }
 
-  const repos = await res.json();
-  return NextResponse.json(repos);
+  try {
+    const response = await fetch(GITHUB_API_URL, {
+      headers: {
+        Authorization: `token ${GITHUB_ACCESS_TOKEN}`,
+        Accept: "application/vnd.github.v3+json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`GitHub API Error: ${response.statusText}`);
+    }
+
+    const repos = await response.json();
+    return NextResponse.json(repos, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }
