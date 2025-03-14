@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { IoLogoGithub } from "react-icons/io";
-import Link from "next/link";
+import LoginButton from "@/components/login-button";
 
 export default function Home() {
   return (
@@ -26,12 +26,7 @@ export default function Home() {
         <div className="w-48 h-[1px] bg-border" />
       </div>
       <div className="relative max-w-xl w-full sm:w-fit">
-        <Link href="/generate">
-          <Button className="relative text-lg p-6 !pe-6 gap-3 cursor-pointer w-full lg:w-fit">
-            <IoLogoGithub className="!w-6 !h-6 text-background" />
-            Sign In with Github
-          </Button>
-        </Link>
+        <LoginButton />
       </div>
     </div>
   );
