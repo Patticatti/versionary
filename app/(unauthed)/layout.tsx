@@ -14,7 +14,7 @@ export default async function UnauthedLayout({
   return (
     <>
       <Navbar user={user} />
-      <div className="pt-14 bg-accent min-h-screen">{children}</div>
+      <div className="pt-14 min-h-screen">{children}</div>
     </>
   );
 }

@@ -6,7 +6,12 @@ import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fetchUserRepos } from "@/utils/github/fetchRepos";
+import {
+  fetchUserRepos,
+  fetchCommitMessages,
+  fetchGroupedCommits,
+  fetchCommitMessagesRange,
+} from "@/utils/github/actions";
 
 // Debounce helper function
 const debounce = (func: (query: string) => void, delay: number) => {
@@ -22,6 +27,7 @@ type Repo = {
   name: string;
   html_url: string;
   private: boolean;
+  owner: { login: string };
 };
 
 export default function GitHubRepos() {
@@ -29,6 +35,9 @@ export default function GitHubRepos() {
   const [filteredRepos, setFilteredRepos] = useState<Repo[]>(repos);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [commitMessages, setCommitMessages] = useState<{
+    [repoName: string]: string[] | string[][];
+  }>({});
 
   useEffect(() => {
     const fetchRepos = async () => {
@@ -68,6 +77,29 @@ export default function GitHubRepos() {
     debouncedSearch(e.target.value);
   };
 
+  // const handleImportClick = async (repo: Repo) => {
+  //   try {
+  //     const messages = await fetchCommitMessagesRange(
+  //       repo.owner.login,
+  //       repo.name
+  //     );
+  //     setCommitMessages((prev) => ({ ...prev, [repo.name]: messages }));
+  //   } catch (error) {
+  //     console.error("Error fetching commit messages:", error);
+  //   }
+  // };
+  const handleImportClick = async (repo: Repo) => {
+    try {
+      const groupedMessages = await fetchGroupedCommits(
+        repo.owner.login,
+        repo.name
+      );
+      setCommitMessages((prev) => ({ ...prev, [repo.name]: groupedMessages }));
+    } catch (error) {
+      console.error("Error fetching commit messages:", error);
+    }
+  };
+
   return (
     <div>
       {/* Search bar */}
@@ -91,31 +123,68 @@ export default function GitHubRepos() {
       ) : filteredRepos.length > 0 ? (
         <div className="bg-background divide-y divide-y-border rounded-lg overflow-hidden border">
           {filteredRepos.map((repo) => (
-            <div
-              key={repo.id}
-              className="p-4 flex justify-between items-center"
-            >
-              <div className="flex items-center">
-                <RiGithubFill size={32} />
-                <Link
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button
-                    variant="link"
-                    className="ml-4 text-sm font-medium mr-2"
+            <div key={repo.id} className="p-4 flex flex-col gap-2">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <RiGithubFill size={32} />
+                  <Link
+                    href={repo.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    {repo.name}
-                  </Button>
-                </Link>
+                    <Button
+                      variant="link"
+                      className="ml-4 text-sm font-medium mr-2"
+                    >
+                      {repo.name}
+                    </Button>
+                  </Link>
+                  {repo.private && (
+                    <Lock size={16} className="text-muted-foreground" />
+                  )}
+                </div>
 
-                {repo.private && (
-                  <Lock size={16} className="text-muted-foreground" />
-                )}
+                <Button
+                  className="cursor-pointer"
+                  onClick={() => handleImportClick(repo)}
+                >
+                  Import
+                </Button>
               </div>
-
-              <Button className="cursor-pointer">Import</Button>
+              {commitMessages[repo.name] && (
+                <div className="mt-2 bg-gray-100 p-2 rounded">
+                  <p className="font-semibold">Latest Commits:</p>
+                  {/* Check if it's an array of arrays of strings */}
+                  {Array.isArray(commitMessages[repo.name]) &&
+                  Array.isArray(
+                    (commitMessages[repo.name] as string[][])[0]
+                  ) ? (
+                    (commitMessages[repo.name] as string[][]).map(
+                      (commitGroup: string[], groupIndex: number) => (
+                        <div key={groupIndex} className="mb-4">
+                          <ul className="list-disc ml-5 text-sm">
+                            {commitGroup.map((msg: string, idx: number) => (
+                              <li key={idx} className="mb-1">
+                                {msg}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    )
+                  ) : (
+                    <ul className="list-disc ml-5 text-sm">
+                      {(commitMessages[repo.name] as string[]).map(
+                        (msg, idx) => (
+                          <li key={idx} className="mb-1">
+                            {msg}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>
