@@ -9,9 +9,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { fetchUserRepos } from "@/utils/github/fetchRepos";
 
 // Debounce helper function
-const debounce = (func: Function, delay: number) => {
+const debounce = (func: (query: string) => void, delay: number) => {
   let timeout: ReturnType<typeof setTimeout>;
-  return (...args: any[]) => {
+  return (...args: [string]) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), delay);
   };
