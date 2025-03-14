@@ -24,12 +24,11 @@ type Repo = {
   private: boolean;
 };
 
-
 export default function GitHubRepos() {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [filteredRepos, setFilteredRepos] = useState<Repo[]>(repos);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchRepos = async () => {
@@ -82,38 +81,47 @@ export default function GitHubRepos() {
         />
       </div>
 
-      <div className="bg-background divide-y divide-y-border rounded-lg overflow-hidden border">
-        {/* Show skeleton loader while repos are being fetched */}
-        {loading ? (
-          <>
-            <Skeleton className="h-12 w-full mb-4" />
-            <Skeleton className="h-12 w-full mb-4" />
-            <Skeleton className="h-12 w-full mb-4" />
-          </>
-        ) : filteredRepos.length > 0 ? (
-          filteredRepos.map((repo) => (
-            <Link
+      {/* Show skeleton loader while repos are being fetched */}
+      {loading ? (
+        <>
+          <Skeleton className="h-12 w-full mb-4" />
+          <Skeleton className="h-12 w-full mb-4" />
+          <Skeleton className="h-12 w-full mb-4" />
+        </>
+      ) : filteredRepos.length > 0 ? (
+        <div className="bg-background divide-y divide-y-border rounded-lg overflow-hidden border">
+          {filteredRepos.map((repo) => (
+            <div
               key={repo.id}
-              href={repo.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
               className="p-4 flex justify-between items-center"
             >
               <div className="flex items-center">
                 <RiGithubFill size={32} />
-                <p className="ml-4 text-sm font-medium mr-2">{repo.name}</p>
+                <Link
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button
+                    variant="link"
+                    className="ml-4 text-sm font-medium mr-2"
+                  >
+                    {repo.name}
+                  </Button>
+                </Link>
+
                 {repo.private && (
                   <Lock size={16} className="text-muted-foreground" />
                 )}
               </div>
 
               <Button className="cursor-pointer">Import</Button>
-            </Link>
-          ))
-        ) : (
-          <li>No repositories found.</li>
-        )}
-      </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <li>No repositories found.</li>
+      )}
     </div>
   );
 }
