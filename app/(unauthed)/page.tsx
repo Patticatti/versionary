@@ -4,9 +4,8 @@ import { IoLogoGithub } from "react-icons/io";
 import Link from "next/link";
 
 export default function Home() {
-  // redirect("/login");
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center px-4 md:px-6 lg:px-8">
       <h1 className="mb-8 font-manrope pt-24 font-semibold text-7xl tracking-tight max-w-2xl text-center mx-auto">
         Generate a Changelog using AI
       </h1>
@@ -26,9 +25,9 @@ export default function Home() {
         <p>Or</p>
         <div className="w-48 h-[1px] bg-border" />
       </div>
-      <div className="relative">
+      <div className="relative max-w-xl w-full sm:w-fit">
         <Link href="/generate">
-          <Button className="relative text-lg p-6 !pe-6 gap-3 cursor-pointer">
+          <Button className="relative text-lg p-6 !pe-6 gap-3 cursor-pointer w-full lg:w-fit">
             <IoLogoGithub className="!w-6 !h-6 text-background" />
             Sign In with Github
           </Button>
