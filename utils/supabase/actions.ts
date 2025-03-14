@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
 
 export async function getUserProfile() {
   const supabase = await createClient();
@@ -24,41 +25,27 @@ export async function getUserProfile() {
 
 export async function signOut() {
   const supabase = await createClient();
-  const { error } = await supabase.auth.signOut();
-  if (error) {
-    console.error("Error signing out:", error.message);
-  }
+  await supabase.auth.signOut();
+
+  window.localStorage.removeItem("oauth_provider_token");
+  window.localStorage.removeItem("oauth_provider_refresh_token");
+  revalidatePath("/", "layout");
+  redirect("/");
 }
 
 export async function signInWithGitHub() {
   const supabase = await createClient();
-
-  supabase.auth.onAuthStateChange((event, session) => {
-    if (session && session.provider_token) {
-      window.localStorage.setItem(
-        "oauth_provider_token",
-        session.provider_token
-      );
-    }
-
-    if (session && session.provider_refresh_token) {
-      window.localStorage.setItem(
-        "oauth_provider_refresh_token",
-        session.provider_refresh_token
-      );
-    }
-
-    if (event === "SIGNED_OUT") {
-      window.localStorage.removeItem("oauth_provider_token");
-      window.localStorage.removeItem("oauth_provider_refresh_token");
-    }
-  });
+  const redirectTo =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/auth/callback"
+      : `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`;
+  console.log("Redirecting to:", redirectTo);
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      scopes: "repo read:org", // Explicitly set OAuth scopes
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      scopes: "repo read:org",
+      redirectTo,
     },
   });
 

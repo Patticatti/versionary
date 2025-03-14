@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { signInWithGitHub, signOut } from "@/app/actions/auth";
+import { signInWithGitHub, signOut } from "@/utils/supabase/actions";
 import { User } from "@supabase/supabase-js";
 export default async function Navbar({ user }: { user: User | null }) {
   return (
