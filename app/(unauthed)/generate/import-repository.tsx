@@ -2,6 +2,7 @@ import { RiNextjsFill, RiReactjsFill } from "react-icons/ri";
 import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import GitHubRepos from "./github-repo-list";
 export default function ImportRepository() {
   return (
     <main className="h-full flex flex-col items-center p-4">
@@ -20,6 +21,7 @@ export default function ImportRepository() {
             alt="Avatar"
           />
         </span>
+        <GitHubRepos />
         <div className="bg-background divide-y divide-y-border rounded-lg overflow-hidden border">
           <div className="p-4 flex justify-between items-center">
             <div className="flex items-center">

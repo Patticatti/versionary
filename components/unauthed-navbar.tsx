@@ -3,7 +3,6 @@ import { Button } from "./ui/button";
 import { signInWithGitHub, signOut } from "@/app/actions/auth";
 import { User } from "@supabase/supabase-js";
 export default async function Navbar({ user }: { user: User | null }) {
-  console.log(user);
   return (
     <nav className="sticky top-0 flex justify-center">
       <div className="py-4 px-6 md:px-8 lg:px-12 flex justify-between max-w-screen-xl w-full">
@@ -19,7 +18,6 @@ export default async function Navbar({ user }: { user: User | null }) {
           </div>
         ) : (
           <div className="flex gap-2">
-            <Button variant="ghost">Sign in</Button>
             <Button onClick={signInWithGitHub}>Get started</Button>
           </div>
         )}
