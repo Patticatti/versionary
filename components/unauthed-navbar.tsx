@@ -1,10 +1,8 @@
-import { getUserProfile } from "@/app/actions/auth";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { User } from "@supabase/supabase-js";
 import { signInWithGitHub } from "@/app/actions/auth";
-export default async function Navbar() {
-  const user = await getUserProfile();
+import { User } from "@supabase/supabase-js";
+export default async function Navbar({ user }: { user: User | null }) {
   return (
     <nav className="sticky top-0 flex justify-center">
       <div className="py-4 px-6 md:px-8 lg:px-12 flex justify-between max-w-screen-xl w-full">
@@ -15,12 +13,10 @@ export default async function Navbar() {
         </Link>
         {user ? (
           <>
-            <li>Welcome, {user.email}</li> {/* Display user email */}
-            {/* You can also display other profile details */}
+            <li>Welcome, {user.user_metadata.displayName}</li>
             <li>
               <button>Logout</button>
             </li>{" "}
-            {/* You can implement logout here */}
           </>
         ) : (
           <div className="flex gap-2">

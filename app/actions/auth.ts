@@ -22,14 +22,23 @@ export async function getUserProfile() {
   return user;
 }
 
+export async function signOut() {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signOut();
+}
+
 export async function signInWithGitHub() {
   const supabase = await createClient();
+  const redirectTo =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/auth/callback"
+      : `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`;
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
       scopes: "repo read:org", // Explicitly set OAuth scopes
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/v1/callback`,
+      redirectTo,
     },
   });
 
@@ -38,6 +47,8 @@ export async function signInWithGitHub() {
     redirect("/error");
   }
 
-  // Redirect user to GitHub login page
-  redirect(data?.url ?? "/");
+  if (data.url) {
+    console.log("data url is" + data.url);
+    redirect(data.url);
+  }
 }
