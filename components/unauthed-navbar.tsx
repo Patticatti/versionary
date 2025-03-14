@@ -4,11 +4,11 @@ import { signInWithGitHub, signOut } from "@/app/actions/auth";
 import { User } from "@supabase/supabase-js";
 export default async function Navbar({ user }: { user: User | null }) {
   return (
-    <nav className="sticky top-0 flex justify-center">
-      <div className="py-4 px-6 md:px-8 lg:px-12 flex justify-between max-w-screen-xl w-full">
-        <Link href="/">
-          <p className="font-manrope tracking-tight text-xl font-bold">
-            Log.it
+    <nav className="fixed w-full top-0 flex justify-center bg-background">
+      <div className="py-3 px-6 md:px-8 lg:px-12 flex justify-between max-w-screen-xl w-full">
+        <Link href="/" className="flex items-center">
+          <p className="font-manrope tracking-tight text-xl font-bold h-fit">
+            Versionary
           </p>
         </Link>
         {user ? (
