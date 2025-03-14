@@ -6,10 +6,7 @@ import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  fetchUserRepos,
-  fetchGroupedCommits,
-} from "@/utils/github/actions";
+import { fetchUserRepos, fetchGroupedCommits } from "@/utils/github/actions";
 
 // Debounce helper function
 const debounce = (func: (query: string) => void, delay: number) => {
@@ -75,17 +72,6 @@ export default function GitHubRepos() {
     debouncedSearch(e.target.value);
   };
 
-  // const handleImportClick = async (repo: Repo) => {
-  //   try {
-  //     const messages = await fetchCommitMessagesRange(
-  //       repo.owner.login,
-  //       repo.name
-  //     );
-  //     setCommitMessages((prev) => ({ ...prev, [repo.name]: messages }));
-  //   } catch (error) {
-  //     console.error("Error fetching commit messages:", error);
-  //   }
-  // };
   const handleImportClick = async (repo: Repo) => {
     try {
       const groupedMessages = await fetchGroupedCommits(
@@ -109,6 +95,14 @@ export default function GitHubRepos() {
           onChange={handleSearchChange}
           className="bg-background"
         />
+      </div>
+      {/* Display repo count */}
+      <div className="mb-4 text-sm text-muted-foreground">
+        {loading ? (
+          <Skeleton className="h-4 w-32" />
+        ) : (
+          <p>{filteredRepos.length} repositories found</p>
+        )}
       </div>
 
       {/* Show skeleton loader while repos are being fetched */}
