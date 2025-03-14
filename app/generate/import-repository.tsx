@@ -3,8 +3,8 @@ import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 export default function ImportRepository() {
   return (
-    <main className="flex flex-col items-center p-4">
-      <div className="p-6 border rounded-lg bg-background max-w-2xl w-full">
+    <main className="h-full flex flex-col items-center justify-center p-4">
+      <div className="px-6 py-8 border rounded-lg bg-background max-w-2xl w-full shadow-md">
         <h1 className="mb-8 text-2xl font-manrope tracking-tight font-bold">
           Import Git Repository
         </h1>
@@ -16,16 +16,43 @@ export default function ImportRepository() {
               <Lock size={16} className="text-muted-foreground" />
             </div>
 
-            <Button>Import</Button>
+            <Button className="cursor-pointer">Import</Button>
           </div>
           <div className="p-4 flex justify-between items-center">
             <div className="flex items-center">
               <RiReactjsFill size={32} className="text-[#61DAFB]" />
+              <p className="ml-4 text-sm font-medium mr-2">baby-repo</p>
+              <Lock size={16} className="text-muted-foreground" />
+            </div>
+
+            <Button className="cursor-pointer">Import</Button>
+          </div>
+          <div className="p-4 flex justify-between items-center">
+            <div className="flex items-center">
+              <RiNextjsFill size={32} />
               <p className="ml-4 text-sm font-medium mr-2">new-startup</p>
               <Lock size={16} className="text-muted-foreground" />
             </div>
 
-            <Button>Import</Button>
+            <Button className="cursor-pointer">Import</Button>
+          </div>
+          <div className="p-4 flex justify-between items-center">
+            <div className="flex items-center">
+              <RiNextjsFill size={32} />
+              <p className="ml-4 text-sm font-medium mr-2">new-startup</p>
+              <Lock size={16} className="text-muted-foreground" />
+            </div>
+
+            <Button className="cursor-pointer">Import</Button>
+          </div>
+          <div className="p-4 flex justify-between items-center">
+            <div className="flex items-center">
+              <RiNextjsFill size={32} />
+              <p className="ml-4 text-sm font-medium mr-2">new-startup</p>
+              <Lock size={16} className="text-muted-foreground" />
+            </div>
+
+            <Button className="cursor-pointer">Import</Button>
           </div>
         </div>
       </div>
