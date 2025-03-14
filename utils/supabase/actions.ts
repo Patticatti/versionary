@@ -26,9 +26,6 @@ export async function getUserProfile() {
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
-
-  window.localStorage.removeItem("oauth_provider_token");
-  window.localStorage.removeItem("oauth_provider_refresh_token");
   revalidatePath("/", "layout");
   redirect("/");
 }
@@ -39,7 +36,6 @@ export async function signInWithGitHub() {
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/auth/callback"
       : `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`;
-  console.log("Redirecting to:", redirectTo);
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
