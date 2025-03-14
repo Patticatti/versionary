@@ -85,14 +85,8 @@ export default function EditorSidebar() {
                 </DropdownMenu>
               </SidebarMenuItem>
             ))}
-            <SidebarMenuItem>
-              <SidebarMenuButton className="text-sidebar-foreground/70">
-                <MoreHorizontal className="text-sidebar-foreground/70" />
-                <span>More</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
           </SidebarMenu>
-          <SidebarGroupLabel>February 2025</SidebarGroupLabel>
+          <SidebarGroupLabel className="mt-4">February 2025</SidebarGroupLabel>
         </SidebarGroup>
       </SidebarContent>
     </div>
