@@ -29,16 +29,12 @@ export async function signOut() {
 
 export async function signInWithGitHub() {
   const supabase = await createClient();
-  const redirectTo =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/auth/callback"
-      : `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`;
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
       scopes: "repo read:org", // Explicitly set OAuth scopes
-      redirectTo,
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
     },
   });
 

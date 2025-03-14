@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { signInWithGitHub } from "@/app/actions/auth";
+import { signInWithGitHub, signOut } from "@/app/actions/auth";
 import { User } from "@supabase/supabase-js";
 export default async function Navbar({ user }: { user: User | null }) {
+  console.log(user);
   return (
     <nav className="sticky top-0 flex justify-center">
       <div className="py-4 px-6 md:px-8 lg:px-12 flex justify-between max-w-screen-xl w-full">
@@ -12,12 +13,10 @@ export default async function Navbar({ user }: { user: User | null }) {
           </p>
         </Link>
         {user ? (
-          <>
-            <li>Welcome, {user.user_metadata.displayName}</li>
-            <li>
-              <button>Logout</button>
-            </li>{" "}
-          </>
+          <div className="flex items-center gap-4">
+            <p>Welcome, {user.user_metadata.name}</p>
+            <Button onClick={signOut}>Log out</Button>
+          </div>
         ) : (
           <div className="flex gap-2">
             <Button variant="ghost">Sign in</Button>
