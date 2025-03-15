@@ -1,5 +1,4 @@
 "use client";
-import { User } from "@supabase/supabase-js";
 import {
   useState,
   useEffect,
@@ -36,7 +35,7 @@ interface CommitMessages {
 }
 
 // Debounce utility with proper typing
-const debounce = <T extends (...args: any[]) => void>(
+const debounce = <T extends (...args: string[]) => void>(
   func: T,
   delay: number
 ): ((...args: Parameters<T>) => void) => {
@@ -79,6 +78,7 @@ const RepoItem = memo(
     </div>
   )
 );
+RepoItem.displayName = "RepoItem";
 
 export default function GitHubRepos() {
   const [repos, setRepos] = useState<Repo[][]>([]);
