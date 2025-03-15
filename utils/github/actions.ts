@@ -1,3 +1,5 @@
+import { Repo } from "@/app/types/types";
+
 export async function fetchGroupedCommits(owner: string, repo: string) {
   const accessToken = window.localStorage.getItem("oauth_provider_token");
   if (!accessToken) {
@@ -91,26 +93,41 @@ export async function fetchCommitMessages(owner: string, repo: string) {
   return commits.map((commit: any) => commit.commit.message);
 }
 
-export async function fetchUserRepos() {
+export async function fetchGroupedRepos(perPage: number) {
   const accessToken = window.localStorage.getItem("oauth_provider_token");
   if (!accessToken) {
     throw new Error("User not authenticated or no access token.");
   }
 
-  const response = await fetch(
-    "https://api.github.com/user/repos?visibility=all",
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: "application/vnd.github.v3+json",
-      },
-    }
-  );
+  let allRepos: Repo[] = [];
+  let page = 1;
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch repositories from GitHub.");
+  while (true) {
+    const response = await fetch(
+      `https://api.github.com/user/repos?visibility=all&sort=updated&direction=desc&per_page=${perPage}&page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Accept: "application/vnd.github.v3+json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status}`);
+    }
+
+    const repos = await response.json();
+    if (repos.length === 0) break;
+
+    allRepos.push(...repos);
+    page++;
   }
 
-  const repos = await response.json();
-  return repos; // List of repositories
+  const groupedRepos: Repo[][] = [];
+  for (let i = 0; i < allRepos.length; i += perPage) {
+    groupedRepos.push(allRepos.slice(i, i + perPage));
+  }
+
+  return groupedRepos;
 }

@@ -2,7 +2,7 @@ import Image from "next/image";
 import GitHubRepos from "./github-repo-list";
 import { User } from "@supabase/supabase-js";
 
-export default function GeneratePage({ user }: { user: User | null }) {
+export default function GeneratePage({ user }: { user: User }) {
   return (
     <div className="px-6 py-8 max-w-2xl w-full mx-auto">
       <h1 className="mb-4 text-4xl font-manrope tracking-tight font-bold">
@@ -21,7 +21,7 @@ export default function GeneratePage({ user }: { user: User | null }) {
           alt="Avatar"
         />
       </span>
-      <GitHubRepos />
+      <GitHubRepos user={user} />
     </div>
   );
 }

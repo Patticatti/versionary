@@ -1,5 +1,4 @@
 import GeneratePage from "./generate";
-import Navbar from "@/components/unauthed-navbar";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -12,11 +11,8 @@ export default async function Page() {
     redirect("/");
   }
   return (
-    <>
-      <Navbar user={user} />
-      <div className="pt-14 min-h-screen">
-        <GeneratePage user={user} />
-      </div>
-    </>
+    <div className="flex flex-1 bg-accent">
+      <GeneratePage user={user} />
+    </div>
   );
 }

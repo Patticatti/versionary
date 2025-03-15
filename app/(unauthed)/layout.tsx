@@ -12,9 +12,9 @@ export default async function UnauthedLayout({
     data: { user },
   } = await supabase.auth.getUser();
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar user={user} />
-      <div className="pt-14 min-h-screen">{children}</div>
-    </>
+      <div className="flex flex-1">{children}</div>
+    </div>
   );
 }
