@@ -40,7 +40,7 @@ export function NavMain({
               }
             >
               <Link href={item.url}>
-                <item.icon className="text-accent-foreground" />
+                <item.icon />
                 <span className="ps-1">{item.title}</span>
               </Link>
             </SidebarMenuButton>

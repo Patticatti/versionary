@@ -39,7 +39,7 @@ export function NavProjects({
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
-                <item.icon className="text-accent-foreground" />
+                <item.icon />
                 <span className="ps-1">{item.name}</span>
               </a>
             </SidebarMenuButton>
