@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "./ui/button";
 import { signInWithGitHub } from "@/utils/supabase/actions";
 import { User } from "@supabase/supabase-js";
@@ -14,9 +15,20 @@ export default async function Navbar({ user }: { user: User | null }) {
         {user ? (
           <div className="flex items-center gap-4 text-sm">
             <p>Welcome, {user.user_metadata.name}</p>
-            <form action="/auth/signout" method="post">
+            <Image
+              src={user.user_metadata.avatar_url || "/sponebob.webp"}
+              width={20}
+              height={20}
+              className="rounded-full w-5 h-5"
+              alt="Avatar"
+            />
+            <Link href="/dashboard">
+              <Button>Dashboard</Button>
+            </Link>
+
+            {/* <form action="/auth/signout" method="post">
               <Button type="submit">Log out</Button>
-            </form>
+            </form> */}
           </div>
         ) : (
           <div className="flex gap-2">
