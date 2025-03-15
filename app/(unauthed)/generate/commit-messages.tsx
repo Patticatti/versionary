@@ -1,4 +1,3 @@
-// New CommitMessages component file (CommitMessages.tsx)
 import { memo } from "react";
 
 interface CommitMessagesProps {

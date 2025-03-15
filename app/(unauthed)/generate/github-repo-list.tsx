@@ -63,7 +63,7 @@ const RepoItem = memo(
         <div className="flex items-center">
           <RiGithubFill size={32} />
           <Link href={repo.html_url} target="_blank" rel="noopener noreferrer">
-            <Button variant="link" className="ml-4 text-sm font-medium mr-2">
+            <Button variant="link" className="ml-2 text-sm font-medium">
               {repo.name}
             </Button>
           </Link>
@@ -80,13 +80,13 @@ const RepoItem = memo(
   )
 );
 
-export default function GitHubRepos({ user }: { user: User }) {
+export default function GitHubRepos() {
   const [repos, setRepos] = useState<Repo[][]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   const [commitMessages, setCommitMessages] = useState<CommitMessages>({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalRepos, setTotalRepos] = useState(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalRepos, setTotalRepos] = useState<number>(0);
   const perPage = 30;
 
   useEffect(() => {
@@ -168,7 +168,7 @@ export default function GitHubRepos({ user }: { user: User }) {
         )}
       </div>
 
-      {/* {loading ? (
+      {loading ? (
         Array.from({ length: 3 }).map((_, i) => (
           <Skeleton key={i} className="h-12 w-full" />
         ))
@@ -185,7 +185,7 @@ export default function GitHubRepos({ user }: { user: User }) {
         </div>
       ) : (
         <p>No repositories found.</p>
-      )} */}
+      )}
 
       <Pagination>
         <PaginationContent>

@@ -14,7 +14,7 @@ export default async function UnauthedLayout({
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar user={user} />
-      <div className="flex flex-1">{children}</div>
+      <div className="flex flex-1 justify-center">{children}</div>
     </div>
   );
 }
