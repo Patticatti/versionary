@@ -40,12 +40,12 @@ export default function EditorSidebar() {
   ];
   const { isMobile } = useSidebar();
   return (
-    <div className="h-full w-[260px] border-r border-neutral-200">
+    <div className="h-full w-[240px] border-r border-neutral-200">
       <SidebarHeader className="px-5 border-b border-b-neutral-200 py-4 text-md font-semibold flex justify-between gap-4">
         Releases
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup className="group-data-[collapsible=icon]:hidden p-4">
+        <SidebarGroup className="group-data-[collapsible=icon]:hidden p-3">
           <SidebarMenu>
             {projects.map((item) => (
               <SidebarMenuItem key={item.name}>

@@ -108,12 +108,13 @@ export default function GitHubRepos() {
 
   // Memoized filtered repos
   const filteredRepos = useMemo(() => {
-    const currentRepos = repos[currentPage - 1] || [];
+    const allRepos = repos.flat();
+
     return searchQuery
-      ? currentRepos.filter((repo) =>
+      ? allRepos.filter((repo) =>
           repo.name.toLowerCase().includes(searchQuery.toLowerCase())
         )
-      : currentRepos;
+      : allRepos.slice((currentPage - 1) * perPage, currentPage * perPage);
   }, [repos, currentPage, searchQuery]);
 
   // Debounced search
@@ -146,6 +147,7 @@ export default function GitHubRepos() {
       const totalPages = Math.ceil(totalRepos / perPage);
       if (newPage > 0 && newPage <= totalPages) {
         setCurrentPage(newPage);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
     [totalRepos, perPage]
