@@ -1,4 +1,4 @@
-import GeneratePage from "./generate";
+import GeneratePage from "./import-component";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 

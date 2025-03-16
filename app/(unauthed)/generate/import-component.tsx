@@ -8,9 +8,9 @@ export default function GeneratePage({ user }: { user: User }) {
       <h1 className="mb-4 text-4xl font-manrope tracking-tight font-bold">
         Import Git Repository
       </h1>
-      <span className="mb-8 text-muted-foreground text-sm inline-flex gap-1">
+      <span className="mb-8 font-normal text-muted-foreground text-sm inline-flex gap-1">
         <p>Imported from </p>
-        <strong className="font-medium text-foreground">
+        <strong className="font-mono font-normal text-foreground">
           {user?.user_metadata.preferred_username}
         </strong>
         <Image
