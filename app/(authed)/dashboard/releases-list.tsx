@@ -100,7 +100,7 @@ export default function ReleasesList() {
   return (
     <div className="bg-background border rounded-xl">
       {releases.map((release) => (
-        <ReleaseCard key={release.commitHash} {...release} />
+        <ReleaseCard key={release.title} {...release} />
       ))}
     </div>
   );
