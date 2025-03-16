@@ -3,15 +3,7 @@ import { Separator } from "@radix-ui/react-separator";
 import { RiGithubFill } from "react-icons/ri";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import {
-  ExternalLink,
-  GitBranch,
-  GitCommitHorizontal,
-  RefreshCcw,
-  File,
-  EllipsisVertical,
-} from "lucide-react";
+import { RefreshCcw } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import DeploymentSection from "./deployment-section";
 import ReleasesList from "./releases-list";
@@ -30,7 +22,10 @@ export default function DashboardPage({ user }: { user: User }) {
           <p className="ml-3 font-manrope text-md text-foreground font-bold tracking-[-0.02em]">
             new-startup
           </p>
-          <Badge variant="outline" className="ml-2 font-normal rounded-full">
+          <Badge
+            variant="outline"
+            className="ml-2 bg-background font-normal text-muted-foreground rounded-full"
+          >
             Private
           </Badge>
         </div>
