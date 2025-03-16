@@ -33,7 +33,13 @@ export default function DeploymentSection() {
             className="p-0 h-fit flex items-center gap-2 text-foreground text-sm"
           >
             <p className="font-normal">2h ago by the-sigma-gamer</p>
-            <span className="bg-teal-500 w-4 h-4 shrink-0 rounded-full border-4 border-teal-100" />
+            <Image
+              src={"/sponebob.webp"}
+              width={20}
+              height={20}
+              className="rounded-full w-5 h-5"
+              alt="Avatar"
+            />
           </Button>
         </div>
         <div>

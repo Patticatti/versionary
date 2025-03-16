@@ -3,15 +3,16 @@ import { Separator } from "@radix-ui/react-separator";
 import { RiGithubFill } from "react-icons/ri";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import { RefreshCcw } from "lucide-react";
+import { RefreshCcw, ExternalLink, RotateCcw } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import DeploymentSection from "./deployment-section";
 import ReleasesList from "./releases-list";
+import { Button } from "@/components/ui/button";
 
 export default function DashboardPage({ user }: { user: User }) {
   return (
     <>
-      <header className="bg-muted/50 border-b flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+      <header className="bg-muted/50 border-b flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center px-4">
           <SidebarTrigger className="-ml-1 group-has-data-[collapsible=icon]/sidebar-wrapper:flex hidden opacity-60" />
           <Separator
@@ -28,6 +29,20 @@ export default function DashboardPage({ user }: { user: User }) {
           >
             Private
           </Badge>
+        </div>
+        <div className="flex items-center gap-2 px-4">
+          <Button variant="ghost" className="!px-5 h-10 !rounded-md">
+            <RotateCcw className="size-4" />
+            Update
+          </Button>
+          <Button variant="outline" className="!px-5 h-10 !rounded-md">
+            <RiGithubFill className="size-5" />
+            Repository
+          </Button>
+          <Button className="!px-5 h-10 !rounded-md">
+            Visit
+            <ExternalLink className="size-4" />
+          </Button>
         </div>
       </header>
       <div className="flex bg-muted/50 flex-1 flex-col items-center gap-4 pt-0">
