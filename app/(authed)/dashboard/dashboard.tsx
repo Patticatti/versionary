@@ -31,15 +31,15 @@ export default function DashboardPage({ user }: { user: User }) {
           </Badge>
         </div>
         <div className="flex items-center gap-2 px-4">
-          <Button variant="ghost" className="!px-5 h-10 !rounded-md">
+          <Button variant="ghost" className="!px-5 !rounded-md">
             <RotateCcw className="size-4" />
             Update
           </Button>
-          <Button variant="outline" className="!px-5 h-10 !rounded-md">
+          <Button variant="outline" className="!px-5 !rounded-md">
             <RiGithubFill className="size-5" />
             Repository
           </Button>
-          <Button className="!px-5 h-10 !rounded-md">
+          <Button className="!px-5 !rounded-md">
             Visit
             <ExternalLink className="size-4" />
           </Button>
