@@ -51,10 +51,10 @@ export default function DashboardPage({ user }: { user: User }) {
             Project Overview
           </h1> */}
           <DeploymentSection />
-          <h2 className="pt-9 pb-3 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
+          <h2 className="pt-9 pb-4 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
             Releases
           </h2>
-          <span className="mb-6 font-normal text-muted-foreground text-sm inline-flex gap-1">
+          <span className="mb-4 font-normal text-muted-foreground text-sm inline-flex gap-1">
             <RefreshCcw className="size-4 -rotate-40 mr-2" />
             <p>Continuously generated </p>
             <strong className="font-normal text-foreground">
