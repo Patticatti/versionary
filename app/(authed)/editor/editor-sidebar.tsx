@@ -24,17 +24,17 @@ export default function EditorSidebar() {
   const projects = [
     {
       name: "2025-02-24.acacia",
-      url: "#",
+      url: "2025-02-24.acacia",
       icon: File,
     },
     {
       name: "2025-02-16.acacia",
-      url: "#",
+      url: "2025-02-16.acacia",
       icon: File,
     },
     {
       name: "2025-02-09.acacia",
-      url: "#",
+      url: "2025-02-09.acacia",
       icon: File,
     },
   ];
@@ -50,7 +50,7 @@ export default function EditorSidebar() {
             {projects.map((item) => (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url}>
+                  <a href={`/editor/${item.url}`}>
                     <item.icon />
                     <span>{item.name}</span>
                   </a>
