@@ -46,7 +46,7 @@ export default function DashboardPage({ user }: { user: User }) {
         </div>
       </header>
       <div className="flex bg-muted/50 flex-1 flex-col items-center gap-4 pt-0">
-        <div className="py-6 px-4 md:px-6 lg:px-8 w-full">
+        <div className="py-6 px-4 md:px-6 lg:px-8 w-full max-w-screen-xl">
           {/* <h1 className="py-6 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
             Project Overview
           </h1> */}

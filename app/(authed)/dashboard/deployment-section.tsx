@@ -18,7 +18,7 @@ export default function DeploymentSection() {
           </div>
           <Button
             variant="link"
-            className="p-0 h-fit flex items-center gap-2 text-foreground font-semibold text-sm"
+            className="p-0 h-fit flex items-center gap-2 text-foreground font-medium text-sm"
           >
             <p>new-startup-app.versionary.dev</p>
             <span className="bg-teal-500 w-4 h-4 shrink-0 rounded-full border-4 border-teal-100" />
@@ -48,7 +48,7 @@ export default function DeploymentSection() {
           </div>
           <Button
             variant="link"
-            className="!px-0 py-0 h-fit flex items-center gap-2 text-foreground font-semibold text-sm"
+            className="!px-0 py-0 h-fit flex items-center gap-2 text-foreground font-medium text-sm"
           >
             <p>www.patticatti.com/changelog</p>
             <ExternalLink className="size-4 shrink-0" />
