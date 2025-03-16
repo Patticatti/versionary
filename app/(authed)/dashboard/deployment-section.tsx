@@ -68,7 +68,7 @@ export default function DeploymentSection() {
             </Button>
             <Button
               variant="link"
-              className="!justify-star w-full !px-0 py-0 h-fit flex font-normal items-center gap-3 text-foreground max-w-sm text-sm"
+              className="!justify-start w-full !px-0 py-0 h-fit flex font-normal items-center gap-3 text-foreground max-w-sm text-sm"
             >
               <GitCommitHorizontal className=" size-4 shrink-0 opacity-70" />
               <p className="font-mono">8f5a489</p>
