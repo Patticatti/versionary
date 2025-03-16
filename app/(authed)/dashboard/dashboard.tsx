@@ -3,13 +3,16 @@ import { Separator } from "@radix-ui/react-separator";
 import { RiGithubFill } from "react-icons/ri";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { RefreshCcw, ExternalLink, RotateCcw } from "lucide-react";
+import { User } from "@supabase/supabase-js";
+import DeploymentSection from "./deployment-section";
+import ReleasesList from "./releases-list";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, GitBranch, GitCommitHorizontal } from "lucide-react";
 
-export default function DashboardPage() {
+export default function DashboardPage({ user }: { user: User }) {
   return (
     <>
-      <header className="bg-muted/50 border-b flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+      <header className="bg-muted/50 border-b flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center px-4">
           <SidebarTrigger className="-ml-1 group-has-data-[collapsible=icon]/sidebar-wrapper:flex hidden opacity-60" />
           <Separator
@@ -20,88 +23,56 @@ export default function DashboardPage() {
           <p className="ml-3 font-manrope text-md text-foreground font-bold tracking-[-0.02em]">
             new-startup
           </p>
-          <Badge variant="outline" className="ml-2 font-normal rounded-full">
+          <Badge
+            variant="outline"
+            className="ml-2 bg-background font-normal text-muted-foreground rounded-full"
+          >
             Private
           </Badge>
         </div>
+        <div className="flex items-center gap-2 px-4">
+          <Button variant="ghost" className="!px-5 h-10 !rounded-md">
+            <RotateCcw className="size-4" />
+            Update
+          </Button>
+          <Button variant="outline" className="!px-5 h-10 !rounded-md">
+            <RiGithubFill className="size-5" />
+            Repository
+          </Button>
+          <Button className="!px-5 h-10 !rounded-md">
+            Visit
+            <ExternalLink className="size-4" />
+          </Button>
+        </div>
       </header>
       <div className="flex bg-muted/50 flex-1 flex-col items-center gap-4 pt-0">
-        <div className="p-4 w-full max-w-5xl">
-          <div className="flex flex-col lg:flex-row items-center gap-6 bg-background rounded-xl border p-6 overflow-hidden">
+        <div className="py-6 px-4 md:px-6 lg:px-8 w-full">
+          {/* <h1 className="py-6 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
+            Project Overview
+          </h1> */}
+          <DeploymentSection />
+          <h2 className="pt-9 pb-3 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
+            Releases
+          </h2>
+          <span className="mb-6 font-normal text-muted-foreground text-sm inline-flex gap-1">
+            <RefreshCcw className="size-4 -rotate-40 mr-2" />
+            <p>Continuously generated </p>
+            <strong className="font-normal text-foreground">
+              every week
+            </strong>{" "}
+            from
+            <strong className="font-normal text-foreground font-mono">
+              {user.user_metadata.preferred_username}/new-startup
+            </strong>
             <Image
-              src="/preview-changelog.png"
-              width={700}
-              height={400}
-              className="object-top object-cover w-full lg:w-[443px] h-[296px] lg:max-w-1/2 rounded-lg border-4"
-              alt="Changelog Preview"
+              src={user.user_metadata.avatar_url || "/sponebob.webp"}
+              width={20}
+              height={20}
+              className="rounded-full w-5 h-5"
+              alt="Avatar"
             />
-            <div className="flex flex-col gap-5 min-w-0 overflow-hidden">
-              <div>
-                <div className="font-normal text-muted-foreground text-sm mb-1">
-                  Deployment
-                </div>
-                <Button
-                  variant="link"
-                  className="p-0 h-fit flex items-center gap-2 text-foreground font-semibold text-sm"
-                >
-                  <p>new-startup-app.versionary.dev</p>
-                  <span className="bg-teal-500 w-4 h-4 shrink-0 rounded-full border-4 border-teal-100" />
-                </Button>
-              </div>
-              <div>
-                <div className="font-normal text-muted-foreground text-sm mb-1">
-                  Last Updated
-                </div>
-                <Button
-                  variant="link"
-                  className="p-0 h-fit flex items-center gap-2 text-foreground text-sm"
-                >
-                  <p className="font-normal">2h ago by the-sigma-gamer</p>
-                  <span className="bg-teal-500 w-4 h-4 shrink-0 rounded-full border-4 border-teal-100" />
-                </Button>
-              </div>
-              <div>
-                <div className="font-normal text-muted-foreground text-sm mb-1">
-                  Domain
-                </div>
-                <Button
-                  variant="link"
-                  className="!px-0 py-0 h-fit flex items-center gap-2 text-foreground font-semibold text-sm"
-                >
-                  <p>www.patticatti.com/changelog</p>
-                  <ExternalLink className="size-4 shrink-0" />
-                </Button>
-              </div>
-              <div>
-                <div className="font-normal text-muted-foreground text-sm mb-2">
-                  Source
-                </div>
-                <div className="space-y-2 mt-1">
-                  <Button
-                    variant="link"
-                    className=" !px-0 py-0 h-fit flex items-center gap-3 text-foreground font-semibold text-sm"
-                  >
-                    <GitBranch className="size-4 shrink-0 opacity-70" />
-                    <p className="font-mono font-normal">main</p>
-                  </Button>
-                  <Button
-                    variant="link"
-                    className="!justify-star w-full !px-0 py-0 h-fit flex font-normal items-center gap-3 text-foreground max-w-sm text-sm"
-                  >
-                    <GitCommitHorizontal className=" size-4 shrink-0 opacity-70" />
-                    <p className="font-mono">8f5a489</p>
-                    <p className="truncate ">
-                      Merge pull request #8 from
-                      Patticatti/patti/add-signin-modal
-                    </p>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="bg-muted/50 aspect-video rounded-xl" />
-          <div className="bg-muted/50 aspect-video rounded-xl" />
-          <div className="bg-muted/50 aspect-video rounded-xl" />
+          </span>
+          <ReleasesList />
         </div>
         <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
       </div>
