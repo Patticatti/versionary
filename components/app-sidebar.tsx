@@ -24,8 +24,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { User } from "@supabase/supabase-js";
-import { useCallback } from "react";
 // This is sample data.
 const data = {
   user: {
@@ -109,36 +107,7 @@ const data = {
   ],
 };
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  user: User;
-}
-
-export function AppSidebar({ user, ...props }: AppSidebarProps) {
-  // const supabase = createClient();
-  // const [repos, setRepos] = useState();
-  // const getRepositoryData = useCallback(async () => {
-  //   if (!user?.id) return;
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from("services")
-  //       .select("name")
-  //       .eq("user_id", user.id);
-
-  //     if (error) {
-  //       console.error("Error fetching services:", error.message);
-  //       setRepos(null);
-  //     } else {
-  //       setRepos(data);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     setRepos(null);
-  //   }
-  // }, [user?.id, supabase]);
-
-  // useEffect(() => {
-  //   getServiceData();
-  // }, [userData?.id, getServiceData]);
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="flex justify-between gap-4">
@@ -150,7 +119,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

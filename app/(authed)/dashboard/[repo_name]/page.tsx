@@ -1,15 +1,12 @@
-import { createClient } from "@/utils/supabase/server";
+import { useZustandStore } from "@/state/zustandStore";
 import DashboardPage from "./dashboard";
 import { redirect } from "next/navigation";
 export default async function Page({
   params,
 }: {
   params: { repo_name: string };
-}): Promise<JSX.Element> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+}) {
+  const { user } = useZustandStore();
   if (!user) {
     redirect("/");
   }

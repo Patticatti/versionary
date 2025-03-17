@@ -22,9 +22,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { User } from "@supabase/supabase-js";
+import { useZustandStore } from "@/state/zustandStore";
+import { redirect } from "next/navigation";
 
-export function NavUser({ user }: { user: User }) {
+export function NavUser() {
+  const { user } = useZustandStore();
+  if (!user) {
+    redirect("/");
+  }
   return (
     <SidebarMenu>
       <SidebarMenuItem>

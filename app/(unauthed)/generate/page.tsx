@@ -1,12 +1,9 @@
 import GeneratePage from "./import-component";
-import { createClient } from "@/utils/supabase/server";
+import { useZustandStore } from "@/state/zustandStore";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = useZustandStore();
   if (!user) {
     redirect("/");
   }

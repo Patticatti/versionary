@@ -2,8 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { signInWithGitHub } from "@/utils/supabase/actions";
-import { User } from "@supabase/supabase-js";
-export default async function Navbar({ user }: { user: User | null }) {
+import { useZustandStore } from "@/state/zustandStore";
+export default async function Navbar() {
+  const { user } = useZustandStore();
   return (
     <nav className="sticky top-0 z-50 flex justify-center bg-background">
       <div className="py-2 px-6 md:px-8 lg:px-12 flex justify-between max-w-screen-xl w-full">
