@@ -21,7 +21,7 @@ export default function GeneratePage({ user }: { user: User }) {
           alt="Avatar"
         />
       </span>
-      <GitHubRepos />
+      <GitHubRepos user={user}/>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import {
   memo,
 } from "react";
 import Link from "next/link";
+import { User } from "@supabase/supabase-js";
 import dynamic from "next/dynamic";
 import { RiGithubFill } from "react-icons/ri";
 import { Lock } from "lucide-react";
@@ -15,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchGroupedRepos, fetchGroupedCommits } from "@/utils/github/actions";
+import updateRepository from "@/utils/github/clientActions";
 import { Repo } from "@/app/types/types";
 import {
   Pagination,
@@ -80,7 +82,7 @@ const RepoItem = memo(
 );
 RepoItem.displayName = "RepoItem";
 
-export default function GitHubRepos() {
+export default function GitHubRepos({ user }: { user: User }) {
   const [repos, setRepos] = useState<Repo[][]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
@@ -137,6 +139,15 @@ export default function GitHubRepos() {
         repo.name
       );
       setCommitMessages((prev) => ({ ...prev, [repo.name]: groupedMessages }));
+      await updateRepository({
+        github_id: Number(repo.id),
+        user_id: user.id as string,
+        name: repo.name,
+        owner: repo.owner.login,
+        html_url: repo.html_url,
+        data: repo,
+        setLoading: setLoading,
+      });
     } catch (error) {
       console.error("Error fetching commit messages:", error);
     }
