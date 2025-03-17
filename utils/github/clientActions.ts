@@ -29,7 +29,7 @@ export default async function updateRepository({
       owner,
       html_url,
       data,
-      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     };
     const { error: updateError } = await supabase
       .from("repositories")
