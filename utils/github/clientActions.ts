@@ -17,7 +17,7 @@ export default async function updateRepository({
   html_url: string;
   data: any; // Optional field for GitHub API response data
   setLoading: (value: SetStateAction<boolean>) => void;
-}) {
+}): Promise<boolean> {
   const supabase = createClient();
   try {
     setLoading(true);
