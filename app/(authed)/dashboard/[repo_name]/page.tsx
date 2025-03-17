@@ -11,8 +11,10 @@ export default async function Page({
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   if (!user) {
     redirect("/");
+    return null;
   }
   const { repo_name } = params;
 
