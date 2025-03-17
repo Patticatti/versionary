@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchGroupedRepos, fetchGroupedCommits } from "@/utils/github/actions";
 import updateRepository from "@/utils/github/clientActions";
-import { Repo } from "@/app/types/types";
+import { Repo } from "@/db/types";
 import {
   Pagination,
   PaginationContent,

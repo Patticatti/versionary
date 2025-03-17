@@ -1,4 +1,4 @@
-import { Repo } from "@/app/types/types";
+import { Repo } from "@/db/types";
 
 export async function getRepoByName(owner: string, repo_name: string) {
   const accessToken = window.localStorage.getItem("oauth_provider_token");
