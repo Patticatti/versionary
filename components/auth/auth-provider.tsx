@@ -5,16 +5,21 @@ import { createClient } from "@/utils/supabase/client";
 import { useZustandStore } from "@/state/zustandStore";
 
 export default function AuthProvider() {
-  const { setUser, reset } = useZustandStore();
+  const { setUser, setLoading, reset } = useZustandStore();
   const supabase = createClient();
 
   useEffect(() => {
     const fetchUser = async () => {
+      setLoading(true);
       const {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (user) setUser(user);
+      if (user) {
+        setUser(user);
+      } else {
+        setLoading(false);
+      }
     };
 
     fetchUser();
@@ -49,7 +54,7 @@ export default function AuthProvider() {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, [setUser, reset, supabase]);
+  }, [setUser, setLoading, reset, supabase]);
 
   return null;
 }

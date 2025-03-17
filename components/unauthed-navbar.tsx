@@ -1,9 +1,10 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { signInWithGitHub } from "@/utils/supabase/actions";
 import { useZustandStore } from "@/state/zustandStore";
-export default async function Navbar() {
+export default function Navbar() {
   const { user } = useZustandStore();
   return (
     <nav className="sticky top-0 z-50 flex justify-center bg-background">

@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/auth/auth-provider";
-import { useZustandStore } from "@/state/zustandStore";
-import { createClient } from "@/utils/supabase/server";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -34,12 +32,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { setUser } = useZustandStore();
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (user) setUser(user);
 
   return (
     <html lang="en">

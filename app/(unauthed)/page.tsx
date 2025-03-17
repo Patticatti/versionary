@@ -4,10 +4,13 @@ import { IoLogoGithub } from "react-icons/io";
 import LoginButton from "@/components/login-button";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
-import { useZustandStore } from "@/state/zustandStore";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
-  const { user } = useZustandStore();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return (
     <div className="flex flex-col items-center px-4 md:px-6 lg:px-8">
       <h1 className="mb-8 font-manrope pt-24 font-semibold text-7xl tracking-tight max-w-2xl text-center mx-auto">

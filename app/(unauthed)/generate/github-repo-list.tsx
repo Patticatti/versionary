@@ -84,7 +84,7 @@ const RepoItem = memo(
 RepoItem.displayName = "RepoItem";
 
 export default function GitHubRepos({ user }: { user: User }) {
-  const [repos, setRepos] = useState<Repo[][]>([]);
+  const [repos, setRepos] = useState<Repo[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [commitMessages, setCommitMessages] = useState<CommitMessages>({});
@@ -99,7 +99,7 @@ export default function GitHubRepos({ user }: { user: User }) {
       try {
         const grouped = await fetchGroupedRepos(perPage);
         setRepos(grouped);
-        const total = grouped.reduce((sum, group) => sum + group.length, 0);
+        const total = grouped.length;
         setTotalRepos(total);
       } catch (error) {
         console.error("Error fetching grouped repos:", error);

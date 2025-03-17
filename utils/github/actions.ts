@@ -119,7 +119,7 @@ export async function fetchCommitMessages(owner: string, repo: string) {
   return commits.map((commit: any) => commit.commit.message);
 }
 
-export async function fetchGroupedRepos(perPage: number) {
+export async function fetchGroupedRepos(perPage: number): Promise<Repo[]> {
   const accessToken = window.localStorage.getItem("oauth_provider_token");
   if (!accessToken) {
     throw new Error("User not authenticated or no access token.");
@@ -143,17 +143,12 @@ export async function fetchGroupedRepos(perPage: number) {
       throw new Error(`GitHub API error: ${response.status}`);
     }
 
-    const repos = await response.json();
+    const repos: Repo[] = await response.json();
     if (repos.length === 0) break;
 
     allRepos.push(...repos);
     page++;
   }
 
-  const groupedRepos: Repo[][] = [];
-  for (let i = 0; i < allRepos.length; i += perPage) {
-    groupedRepos.push(allRepos.slice(i, i + perPage));
-  }
-
-  return groupedRepos;
+  return allRepos;
 }
