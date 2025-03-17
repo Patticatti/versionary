@@ -8,6 +8,7 @@ import {
   memo,
 } from "react";
 import Link from "next/link";
+import { User } from "@supabase/supabase-js";
 import dynamic from "next/dynamic";
 import { RiGithubFill } from "react-icons/ri";
 import { Lock } from "lucide-react";
@@ -15,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchGroupedRepos, fetchGroupedCommits } from "@/utils/github/actions";
+import updateRepository from "@/utils/github/clientActions";
 import { Repo } from "@/app/types/types";
 import {
   Pagination,
@@ -23,6 +25,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useRouter } from "next/navigation";
 
 // Lazy load components that aren't immediately needed
 const CommitMessages = dynamic(() => import("./commit-messages"), {
@@ -80,13 +83,14 @@ const RepoItem = memo(
 );
 RepoItem.displayName = "RepoItem";
 
-export default function GitHubRepos() {
+export default function GitHubRepos({ user }: { user: User }) {
   const [repos, setRepos] = useState<Repo[][]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [commitMessages, setCommitMessages] = useState<CommitMessages>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRepos, setTotalRepos] = useState<number>(0);
+  const router = useRouter();
   const perPage = 30;
 
   useEffect(() => {
@@ -108,12 +112,13 @@ export default function GitHubRepos() {
 
   // Memoized filtered repos
   const filteredRepos = useMemo(() => {
-    const currentRepos = repos[currentPage - 1] || [];
+    const allRepos = repos.flat();
+
     return searchQuery
-      ? currentRepos.filter((repo) =>
+      ? allRepos.filter((repo) =>
           repo.name.toLowerCase().includes(searchQuery.toLowerCase())
         )
-      : currentRepos;
+      : allRepos.slice((currentPage - 1) * perPage, currentPage * perPage);
   }, [repos, currentPage, searchQuery]);
 
   // Debounced search
@@ -136,6 +141,16 @@ export default function GitHubRepos() {
         repo.name
       );
       setCommitMessages((prev) => ({ ...prev, [repo.name]: groupedMessages }));
+      await updateRepository({
+        github_id: Number(repo.id),
+        user_id: user.id as string,
+        name: repo.name,
+        owner: repo.owner.login,
+        html_url: repo.html_url,
+        data: repo,
+        setLoading: setLoading,
+      });
+      router.push(`/dashboard/${repo.name}`);
     } catch (error) {
       console.error("Error fetching commit messages:", error);
     }
@@ -146,6 +161,7 @@ export default function GitHubRepos() {
       const totalPages = Math.ceil(totalRepos / perPage);
       if (newPage > 0 && newPage <= totalPages) {
         setCurrentPage(newPage);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
     [totalRepos, perPage]

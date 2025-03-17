@@ -1,5 +1,31 @@
 import { Repo } from "@/app/types/types";
 
+export async function getRepoByName(owner: string, repo_name: string) {
+  const accessToken = window.localStorage.getItem("oauth_provider_token");
+  if (!accessToken) {
+    throw new Error("User not authenticated or no access token.");
+  }
+
+  const response = await fetch(
+    `https://api.github.com/repos/${owner}/${repo_name}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "application/vnd.github.v3+json",
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error(
+      `Error fetching data: ${response.status} ${response.statusText}`
+    );
+  }
+
+  const data = await response.json();
+
+  return data || null;
+}
+
 export async function fetchGroupedCommits(owner: string, repo: string) {
   const accessToken = window.localStorage.getItem("oauth_provider_token");
   if (!accessToken) {

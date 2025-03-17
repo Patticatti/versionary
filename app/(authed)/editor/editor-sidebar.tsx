@@ -24,33 +24,33 @@ export default function EditorSidebar() {
   const projects = [
     {
       name: "2025-02-24.acacia",
-      url: "#",
+      url: "2025-02-24.acacia",
       icon: File,
     },
     {
       name: "2025-02-16.acacia",
-      url: "#",
+      url: "2025-02-16.acacia",
       icon: File,
     },
     {
       name: "2025-02-09.acacia",
-      url: "#",
+      url: "2025-02-09.acacia",
       icon: File,
     },
   ];
   const { isMobile } = useSidebar();
   return (
-    <div className="h-full w-[260px] border-r border-neutral-200">
+    <div className="h-full w-[240px] border-r border-neutral-200">
       <SidebarHeader className="px-5 border-b border-b-neutral-200 py-4 text-md font-semibold flex justify-between gap-4">
         Releases
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup className="group-data-[collapsible=icon]:hidden p-4">
+        <SidebarGroup className="group-data-[collapsible=icon]:hidden p-3">
           <SidebarMenu>
             {projects.map((item) => (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url}>
+                  <Link href={`/editor/${item.url}`}>
                     <item.icon />
                     <span>{item.name}</span>
                   </a>

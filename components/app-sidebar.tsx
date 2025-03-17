@@ -1,6 +1,6 @@
 "use client";
-
 import * as React from "react";
+import { useState } from "react";
 import {
   AudioWaveform,
   Command,
@@ -11,7 +11,7 @@ import {
   GalleryVerticalEnd,
   Settings,
 } from "lucide-react";
-
+import { createClient } from "@/utils/supabase/client";
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
@@ -24,7 +24,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-
+import { User } from "@supabase/supabase-js";
+import { useCallback } from "react";
 // This is sample data.
 const data = {
   user: {
@@ -108,7 +109,36 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  user: User;
+}
+
+export function AppSidebar({ user, ...props }: AppSidebarProps) {
+  // const supabase = createClient();
+  // const [repos, setRepos] = useState();
+  // const getRepositoryData = useCallback(async () => {
+  //   if (!user?.id) return;
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from("services")
+  //       .select("name")
+  //       .eq("user_id", user.id);
+
+  //     if (error) {
+  //       console.error("Error fetching services:", error.message);
+  //       setRepos(null);
+  //     } else {
+  //       setRepos(data);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     setRepos(null);
+  //   }
+  // }, [user?.id, supabase]);
+
+  // useEffect(() => {
+  //   getServiceData();
+  // }, [userData?.id, getServiceData]);
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="flex justify-between gap-4">
@@ -120,7 +150,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

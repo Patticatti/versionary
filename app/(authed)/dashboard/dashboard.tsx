@@ -31,30 +31,30 @@ export default function DashboardPage({ user }: { user: User }) {
           </Badge>
         </div>
         <div className="flex items-center gap-2 px-4">
-          <Button variant="ghost" className="!px-5 h-10 !rounded-md">
+          <Button variant="ghost" className="!px-5 !rounded-md">
             <RotateCcw className="size-4" />
             Update
           </Button>
-          <Button variant="outline" className="!px-5 h-10 !rounded-md">
+          <Button variant="outline" className="!px-5 !rounded-md">
             <RiGithubFill className="size-5" />
             Repository
           </Button>
-          <Button className="!px-5 h-10 !rounded-md">
+          <Button className="!px-5 !rounded-md">
             Visit
             <ExternalLink className="size-4" />
           </Button>
         </div>
       </header>
       <div className="flex bg-muted/50 flex-1 flex-col items-center gap-4 pt-0">
-        <div className="py-6 px-4 md:px-6 lg:px-8 w-full">
+        <div className="py-6 px-4 md:px-6 lg:px-8 w-full max-w-screen-xl">
           {/* <h1 className="py-6 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
             Project Overview
           </h1> */}
           <DeploymentSection />
-          <h2 className="pt-9 pb-3 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
+          <h2 className="pt-9 pb-4 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
             Releases
           </h2>
-          <span className="mb-6 font-normal text-muted-foreground text-sm inline-flex gap-1">
+          <span className="mb-4 font-normal text-muted-foreground text-sm inline-flex gap-1">
             <RefreshCcw className="size-4 -rotate-40 mr-2" />
             <p>Continuously generated </p>
             <strong className="font-normal text-foreground">
