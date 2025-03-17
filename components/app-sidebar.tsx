@@ -1,6 +1,4 @@
-"use client";
 import * as React from "react";
-import { useState } from "react";
 import {
   AudioWaveform,
   Command,
@@ -11,7 +9,6 @@ import {
   GalleryVerticalEnd,
   Settings,
 } from "lucide-react";
-import { createClient } from "@/utils/supabase/client";
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
