@@ -5,7 +5,7 @@ export default async function Page({
   params,
 }: {
   params: { repo_name: string };
-}) {
+}): Promise<JSX.Element> {
   const supabase = await createClient();
   const {
     data: { user },
