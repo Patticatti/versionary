@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { getRepoByName } from "@/utils/github/actions";
+import { Repo } from "@/db/types";
 
 export default function DashboardPage({
   user,
@@ -10,7 +11,7 @@ export default function DashboardPage({
   user: User;
   repo_name: string;
 }) {
-  const [repoData, setRepoData] = useState<any>(null);
+  const [repoData, setRepoData] = useState<Repo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
