@@ -25,6 +25,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useRouter } from "next/navigation";
 
 // Lazy load components that aren't immediately needed
 const CommitMessages = dynamic(() => import("./commit-messages"), {
@@ -89,6 +90,7 @@ export default function GitHubRepos({ user }: { user: User }) {
   const [commitMessages, setCommitMessages] = useState<CommitMessages>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRepos, setTotalRepos] = useState<number>(0);
+  const router = useRouter();
   const perPage = 30;
 
   useEffect(() => {
@@ -148,6 +150,7 @@ export default function GitHubRepos({ user }: { user: User }) {
         data: repo,
         setLoading: setLoading,
       });
+      router.push(`/dashboard/${repo.name}`);
     } catch (error) {
       console.error("Error fetching commit messages:", error);
     }
