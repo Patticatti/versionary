@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
 } from "@radix-ui/react-dropdown-menu";
 import { Folder, Forward, File, MoreHorizontal, Trash2 } from "lucide-react";
+import Link from "next/link";
 
 export default function EditorSidebar() {
   const projects = [
@@ -53,7 +54,7 @@ export default function EditorSidebar() {
                   <Link href={`/editor/${item.url}`}>
                     <item.icon />
                     <span>{item.name}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
