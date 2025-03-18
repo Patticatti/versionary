@@ -2,12 +2,13 @@ import DashboardPage from "./dashboard";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function Page({
-  params,
-}: {
+interface PageProps {
   params: { repo_name: string };
-}) {
+}
+
+export default async function Page({ params }: PageProps) {
   const supabase = await createClient();
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -16,7 +17,6 @@ export default async function Page({
     redirect("/");
     return null;
   }
-  const { repo_name } = params;
 
-  return <DashboardPage user={user} repo_name={repo_name} />;
+  return <DashboardPage user={user} repo_name={params.repo_name} />;
 }
