@@ -12,7 +12,7 @@ import {
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
-import { RepoSwitcher } from "@/components/team-switcher";
+import { RepoSwitcher } from "@/components/repo-switcher";
 import {
   Sidebar,
   SidebarTrigger,

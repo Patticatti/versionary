@@ -18,14 +18,20 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useZustandStore } from "@/state/zustandStore";
+import { useRouter } from "next/navigation";
 
 export function RepoSwitcher() {
   const { repos } = useZustandStore();
   const [activeRepo, setActiveRepo] = useState(repos[0]);
-
+  const router = useRouter();
   if (!activeRepo) {
     return null;
   }
+
+  const handleRepoChange = (repo: any) => {
+    setActiveRepo(repo);
+    router.push(`/dashboard/${repo.name}`);
+  };
 
   return (
     <SidebarMenu>
@@ -56,7 +62,7 @@ export function RepoSwitcher() {
             {repos.map((repo, index) => (
               <DropdownMenuItem
                 key={repo.name}
-                onClick={() => setActiveRepo(repo)}
+                onClick={() => handleRepoChange(repo)}
                 className="gap-2 p-2 cursor-pointer"
               >
                 <div className="flex size-6 items-center justify-center rounded-md">
