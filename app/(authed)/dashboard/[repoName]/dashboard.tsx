@@ -1,7 +1,7 @@
 "use client";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { User } from "@supabase/supabase-js";
-import { getRepoByName } from "@/utils/github/actions";
+// import { getRepoByName } from "@/utils/github/actions";
 // import { Repo } from "@/db/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
