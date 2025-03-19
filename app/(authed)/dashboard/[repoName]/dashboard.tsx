@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { User } from "@supabase/supabase-js";
 import { getRepoByName } from "@/utils/github/actions";
-import { Repo } from "@/db/types";
+// import { Repo } from "@/db/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -11,7 +11,7 @@ import { RotateCcw, ExternalLink } from "lucide-react";
 import { RiGithubFill } from "react-icons/ri";
 import DeploymentSection from "../deployment-section";
 import ReleasesList from "../releases-list";
-import { useZustandStore } from "@/state/zustandStore";
+// import { useZustandStore } from "@/state/zustandStore";
 
 export default function DashboardPage({
   user,
@@ -23,23 +23,23 @@ export default function DashboardPage({
   // const [repoData, setRepoData] = useState<Repo | null>(null);
   // const { loading, setLoading } = useZustandStore();
 
-  useEffect(() => {
-    async function fetchRepo() {
-      try {
-        const data = await getRepoByName(
-          user.user_metadata.user_name,
-          repoName
-        );
-        // setRepoData(data);
-      } catch (error) {
-        console.error("Error fetching repository:", error);
-      } finally {
-        // setLoading(false);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchRepo() {
+  //     try {
+  //       const data = await getRepoByName(
+  //         user.user_metadata.user_name,
+  //         repoName
+  //       );
+  //       setRepoData(data);
+  //     } catch (error) {
+  //       console.error("Error fetching repository:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
 
-    fetchRepo();
-  }, [user.user_metadata.user_name, repoName]);
+  //   fetchRepo();
+  // }, [user.user_metadata.user_name, repoName]);
 
   return (
     <>
