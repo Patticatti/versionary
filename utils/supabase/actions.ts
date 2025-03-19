@@ -45,7 +45,7 @@ export async function signInWithGitHub() {
 
   if (data.url) {
     console.log("data url is" + data.url);
-    revalidatePath("/layout");
+    revalidatePath("/");
     redirect(data.url);
   }
 }
