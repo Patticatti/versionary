@@ -6,17 +6,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { LucideIcon } from "lucide-react";
-import {
-  AudioWaveform,
-  Command,
-  File,
-  House,
-  FilePenLine,
-  Blocks,
-  GalleryVerticalEnd,
-  Settings,
-} from "lucide-react";
+import { House, FilePenLine, Blocks, Settings } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 

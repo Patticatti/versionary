@@ -140,7 +140,10 @@ export default function GitHubRepos({ user }: { user: User }) {
         repo.owner.login,
         repo.name
       );
-      setCommitMessages((prev) => ({ ...prev, [repo.name]: groupedMessages }));
+      setCommitMessages((prev) => ({
+        ...prev,
+        [repo.name]: groupedMessages,
+      }));
       await updateRepository({
         github_id: Number(repo.id),
         user_id: user.id as string,

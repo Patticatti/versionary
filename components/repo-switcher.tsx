@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useZustandStore } from "@/state/zustandStore";
 import { useRouter } from "next/navigation";
+import { Repo } from "@/db/types";
 
 export function RepoSwitcher() {
   const { repos } = useZustandStore();
@@ -28,7 +29,7 @@ export function RepoSwitcher() {
     return null;
   }
 
-  const handleRepoChange = (repo: any) => {
+  const handleRepoChange = (repo: Repo) => {
     setActiveRepo(repo);
     router.push(`/dashboard/${repo.name}`);
   };

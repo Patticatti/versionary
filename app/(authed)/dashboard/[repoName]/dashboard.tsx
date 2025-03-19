@@ -20,8 +20,8 @@ export default function DashboardPage({
   user: User;
   repoName: string;
 }) {
-  const [repoData, setRepoData] = useState<Repo | null>(null);
-  const { loading, setLoading } = useZustandStore();
+  // const [repoData, setRepoData] = useState<Repo | null>(null);
+  // const { loading, setLoading } = useZustandStore();
 
   useEffect(() => {
     async function fetchRepo() {
@@ -30,11 +30,11 @@ export default function DashboardPage({
           user.user_metadata.user_name,
           repoName
         );
-        setRepoData(data);
+        // setRepoData(data);
       } catch (error) {
         console.error("Error fetching repository:", error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     }
 
