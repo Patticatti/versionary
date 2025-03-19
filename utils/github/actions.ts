@@ -1,13 +1,13 @@
 import { Repo } from "@/db/types";
 
-export async function getRepoByName(owner: string, repo_name: string) {
+export async function getRepoByName(owner: string, repoName: string) {
   const accessToken = window.localStorage.getItem("oauth_provider_token");
   if (!accessToken) {
     throw new Error("User not authenticated or no access token.");
   }
 
   const response = await fetch(
-    `https://api.github.com/repos/${owner}/${repo_name}`,
+    `https://api.github.com/repos/${owner}/${repoName}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

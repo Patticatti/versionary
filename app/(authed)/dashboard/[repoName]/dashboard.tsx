@@ -6,10 +6,10 @@ import { Repo } from "@/db/types";
 
 export default function DashboardPage({
   user,
-  repo_name,
+  repoName,
 }: {
   user: User;
-  repo_name: string;
+  repoName: string;
 }) {
   const [repoData, setRepoData] = useState<Repo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -19,7 +19,7 @@ export default function DashboardPage({
       try {
         const data = await getRepoByName(
           user.user_metadata.user_name,
-          repo_name
+          repoName
         );
         setRepoData(data);
       } catch (error) {
@@ -30,7 +30,7 @@ export default function DashboardPage({
     }
 
     fetchRepo();
-  }, [user.user_metadata.user_name, repo_name]);
+  }, [user.user_metadata.user_name, repoName]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -38,7 +38,7 @@ export default function DashboardPage({
 
   return (
     <div>
-      {user.user_metadata.full_name} and {repo_name} and {repoData?.id}
+      {user.user_metadata.full_name} and {repoName} and {repoData?.id}
     </div>
   );
 }

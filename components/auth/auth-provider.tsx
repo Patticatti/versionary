@@ -5,24 +5,37 @@ import { createClient } from "@/utils/supabase/client";
 import { useZustandStore } from "@/state/zustandStore";
 
 export default function AuthProvider() {
-  const { setUser, setLoading, reset } = useZustandStore();
+  const { setUser, setLoading, reset, setRepos } = useZustandStore(); // Add setRepositories state
   const supabase = createClient();
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserAndRepositories = async () => {
       setLoading(true);
+
       const {
         data: { user },
       } = await supabase.auth.getUser();
 
       if (user) {
         setUser(user);
+
+        // Fetch repositories for this user
+        const { data: repositories, error } = await supabase
+          .from("repositories") // Replace with your actual table name
+          .select("*") // Select all columns, adjust if needed
+          .eq("user_id", user.id); // Filter by user_id
+
+        if (error) {
+          console.error("Error fetching repositories:", error.message);
+        } else {
+          setRepos(repositories); // Store repositories in Zustand
+        }
       } else {
         setLoading(false);
       }
     };
 
-    fetchUser();
+    fetchUserAndRepositories();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
@@ -54,7 +67,7 @@ export default function AuthProvider() {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, [setUser, setLoading, reset, supabase]);
+  }, [setUser, setLoading, reset, setRepos, supabase]);
 
   return null;
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import { SetStateAction } from "react";
 import { createClient } from "../supabase/client";
 
@@ -7,7 +9,6 @@ export default async function updateRepository({
   name,
   owner,
   html_url,
-  data,
   setLoading,
 }: {
   github_id: number;
@@ -15,27 +16,29 @@ export default async function updateRepository({
   name: string;
   owner: string;
   html_url: string;
-  data: any; // Optional field for GitHub API response data
   setLoading: (value: SetStateAction<boolean>) => void;
-}): Promise<boolean> {
+}) {
   const supabase = createClient();
-  try {
-    setLoading(true);
+  setLoading(true);
 
+  try {
     const repositoryData = {
       user_id,
       github_id,
       name,
       owner,
       html_url,
-      data,
       updated_at: new Date().toISOString(),
     };
-    const { error: updateError } = await supabase
+
+    const { error } = await supabase
       .from("repositories")
       .upsert([repositoryData], { onConflict: "github_id" });
 
-    if (updateError) throw updateError;
+    if (error) {
+      console.error("Supabase error:", error.message);
+      throw new Error(error.message);
+    }
 
     alert("Repository updated!");
   } catch (error) {

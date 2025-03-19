@@ -12,7 +12,7 @@ import {
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
+import { RepoSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarTrigger,
@@ -108,11 +108,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="flex justify-between gap-4">
-        <TeamSwitcher teams={data.teams} />
+        <RepoSwitcher />
         <SidebarTrigger className="-ml-1 opacity-60" />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>

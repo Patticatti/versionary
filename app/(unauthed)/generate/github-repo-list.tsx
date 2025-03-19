@@ -147,7 +147,6 @@ export default function GitHubRepos({ user }: { user: User }) {
         name: repo.name,
         owner: repo.owner.login,
         html_url: repo.html_url,
-        data: repo,
         setLoading: setLoading,
       });
       router.push(`/dashboard/${repo.name}`);
