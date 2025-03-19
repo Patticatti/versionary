@@ -1,8 +1,8 @@
 "use client";
-// import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
-// import { getRepoByName } from "@/utils/github/actions";
-// import { Repo } from "@/db/types";
+import { getRepoByName } from "@/utils/github/actions";
+import { Repo } from "@/db/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -20,26 +20,26 @@ export default function DashboardPage({
   user: User;
   repoName: string;
 }) {
-  // const [repoData, setRepoData] = useState<Repo | null>(null);
-  // const { loading, setLoading } = useZustandStore();
+  const [repoData, setRepoData] = useState<Repo | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // useEffect(() => {
-  //   async function fetchRepo() {
-  //     try {
-  //       const data = await getRepoByName(
-  //         user.user_metadata.user_name,
-  //         repoName
-  //       );
-  //       setRepoData(data);
-  //     } catch (error) {
-  //       console.error("Error fetching repository:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
+  useEffect(() => {
+    async function fetchRepo() {
+      try {
+        const data = await getRepoByName(
+          user.user_metadata.user_name,
+          repoName
+        );
+        setRepoData(data);
+      } catch (error) {
+        console.error("Error fetching repository:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-  //   fetchRepo();
-  // }, [user.user_metadata.user_name, repoName]);
+    fetchRepo();
+  }, [user.user_metadata.user_name, repoName]);
 
   return (
     <>
@@ -57,10 +57,10 @@ export default function DashboardPage({
         </div>
         <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
       </div>
+      <div>
+        {user.user_metadata.full_name} and {repoName} and {repoData?.id}
+      </div>
     </>
-    // <div>
-    //   {user.user_metadata.full_name} and {repoName} and {repoData?.id}
-    // </div>
   );
 }
 function DashboardHeader({ repoName }: { repoName: string }) {
