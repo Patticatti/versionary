@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 export default async function Page({
   params,
 }: {
-  params: { repoName: string };
+  params: Promise<{ repoName: string }>;
 }) {
   const supabase = await createClient();
   const { repoName } = await params;
