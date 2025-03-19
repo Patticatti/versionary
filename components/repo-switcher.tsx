@@ -1,4 +1,6 @@
-import * as React from "react";
+"use client";
+
+import { useState } from "react";
 import { ChevronsUpDown, Plus } from "lucide-react";
 import { RiGithubFill } from "react-icons/ri";
 import Link from "next/link";
@@ -15,21 +17,22 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useZustandStore } from "@/state/zustandStore";
+import { useRouter } from "next/navigation";
+import { Repo } from "@/db/types";
 
-export function TeamSwitcher({
-  teams,
-}: {
-  teams: {
-    name: string;
-    logo: React.ElementType;
-    plan: string;
-  }[];
-}) {
-  const [activeTeam, setActiveTeam] = React.useState(teams[0]);
-
-  if (!activeTeam) {
+export function RepoSwitcher() {
+  const { repos } = useZustandStore();
+  const [activeRepo, setActiveRepo] = useState(repos[0]);
+  const router = useRouter();
+  if (!activeRepo) {
     return null;
   }
+
+  const handleRepoChange = (repo: Repo) => {
+    setActiveRepo(repo);
+    router.push(`/dashboard/${repo.name}`);
+  };
 
   return (
     <SidebarMenu>
@@ -45,7 +48,7 @@ export function TeamSwitcher({
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="ml-1 truncate font-medium">
-                  {activeTeam.name}
+                  {activeRepo.name}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto" />
@@ -57,16 +60,16 @@ export function TeamSwitcher({
             side={"bottom"}
             sideOffset={4}
           >
-            {teams.map((team, index) => (
+            {repos.map((repo, index) => (
               <DropdownMenuItem
-                key={team.name}
-                onClick={() => setActiveTeam(team)}
+                key={repo.name}
+                onClick={() => handleRepoChange(repo)}
                 className="gap-2 p-2 cursor-pointer"
               >
                 <div className="flex size-6 items-center justify-center rounded-md">
                   <RiGithubFill className="size-5 shrink-0" />
                 </div>
-                {team.name}
+                {repo.name}
                 <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
               </DropdownMenuItem>
             ))}

@@ -1,14 +1,9 @@
-import DashboardPage from "./dashboard";
-import { createClient } from "@/utils/supabase/server";
+"use client";
+import { useZustandStore } from "@/state/zustandStore";
 import { redirect } from "next/navigation";
 
-export default async function Page() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    redirect("/");
-  }
-  return <DashboardPage user={user} />;
+export default function Page() {
+  const { repos } = useZustandStore();
+  redirect(`/dashboard/${repos[0].name}`);
+  return null;
 }

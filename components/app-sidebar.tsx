@@ -1,6 +1,4 @@
-"use client";
 import * as React from "react";
-import { useState } from "react";
 import {
   AudioWaveform,
   Command,
@@ -11,11 +9,10 @@ import {
   GalleryVerticalEnd,
   Settings,
 } from "lucide-react";
-import { createClient } from "@/utils/supabase/client";
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
+import { RepoSwitcher } from "@/components/repo-switcher";
 import {
   Sidebar,
   SidebarTrigger,
@@ -24,8 +21,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { User } from "@supabase/supabase-js";
-import { useCallback } from "react";
 // This is sample data.
 const data = {
   user: {
@@ -109,48 +104,19 @@ const data = {
   ],
 };
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  user: User;
-}
-
-export function AppSidebar({ user, ...props }: AppSidebarProps) {
-  // const supabase = createClient();
-  // const [repos, setRepos] = useState();
-  // const getRepositoryData = useCallback(async () => {
-  //   if (!user?.id) return;
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from("services")
-  //       .select("name")
-  //       .eq("user_id", user.id);
-
-  //     if (error) {
-  //       console.error("Error fetching services:", error.message);
-  //       setRepos(null);
-  //     } else {
-  //       setRepos(data);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     setRepos(null);
-  //   }
-  // }, [user?.id, supabase]);
-
-  // useEffect(() => {
-  //   getServiceData();
-  // }, [userData?.id, getServiceData]);
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="flex justify-between gap-4">
-        <TeamSwitcher teams={data.teams} />
+        <RepoSwitcher />
         <SidebarTrigger className="-ml-1 opacity-60" />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

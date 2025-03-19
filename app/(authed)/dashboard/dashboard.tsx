@@ -2,14 +2,12 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
 import { RiGithubFill } from "react-icons/ri";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
-import { RefreshCcw, ExternalLink, RotateCcw } from "lucide-react";
-import { User } from "@supabase/supabase-js";
+import { ExternalLink, RotateCcw } from "lucide-react";
 import DeploymentSection from "./deployment-section";
 import ReleasesList from "./releases-list";
 import { Button } from "@/components/ui/button";
 
-export default function DashboardPage({ user }: { user: User }) {
+export default function DashboardPage() {
   return (
     <>
       <header className="bg-muted/50 border-b flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -54,24 +52,6 @@ export default function DashboardPage({ user }: { user: User }) {
           <h2 className="pt-9 pb-4 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
             Releases
           </h2>
-          <span className="mb-4 font-normal text-muted-foreground text-sm inline-flex gap-1">
-            <RefreshCcw className="size-4 -rotate-40 mr-2" />
-            <p>Continuously generated </p>
-            <strong className="font-normal text-foreground">
-              every week
-            </strong>{" "}
-            from
-            <strong className="font-normal text-foreground font-mono">
-              {user.user_metadata.preferred_username}/new-startup
-            </strong>
-            <Image
-              src={user.user_metadata.avatar_url || "/sponebob.webp"}
-              width={20}
-              height={20}
-              className="rounded-full w-5 h-5"
-              alt="Avatar"
-            />
-          </span>
           <ReleasesList />
         </div>
         <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />

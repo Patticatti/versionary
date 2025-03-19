@@ -1,13 +1,15 @@
+"use client";
+
 import { SetStateAction } from "react";
 import { createClient } from "../supabase/client";
+import { useZustandStore } from "@/state/zustandStore";
 
-export default async function updateRepository({
+export default function updateRepository({
   github_id,
   user_id,
   name,
   owner,
   html_url,
-  data,
   setLoading,
 }: {
   github_id: number;
@@ -15,32 +17,40 @@ export default async function updateRepository({
   name: string;
   owner: string;
   html_url: string;
-  data: any; // Optional field for GitHub API response data
   setLoading: (value: SetStateAction<boolean>) => void;
-}): Promise<boolean> {
-  const supabase = createClient();
-  try {
+}) {
+  const { setRepos, repos } = useZustandStore();
+  return new Promise<void>(async (resolve, reject) => {
+    const supabase = createClient();
     setLoading(true);
 
-    const repositoryData = {
-      user_id,
-      github_id,
-      name,
-      owner,
-      html_url,
-      data,
-      updated_at: new Date().toISOString(),
-    };
-    const { error: updateError } = await supabase
-      .from("repositories")
-      .upsert([repositoryData], { onConflict: "github_id" });
+    try {
+      const repositoryData = {
+        user_id,
+        github_id,
+        name,
+        owner: { login: owner },
+        html_url,
+        updated_at: new Date().toISOString(),
+      };
 
-    if (updateError) throw updateError;
+      const { error } = await supabase
+        .from("repositories")
+        .upsert([repositoryData], { onConflict: "github_id" });
 
-    alert("Repository updated!");
-  } catch (error) {
-    console.error("Error updating repository:", error);
-  } finally {
-    setLoading(false);
-  }
+      if (error) {
+        console.error("Supabase error:", error.message);
+        throw new Error(error.message);
+      }
+
+      setRepos([...repos, repositoryData]);
+
+      resolve();
+    } catch (error) {
+      console.error("Error updating repository:", error);
+      reject(error);
+    } finally {
+      setLoading(false);
+    }
+  });
 }

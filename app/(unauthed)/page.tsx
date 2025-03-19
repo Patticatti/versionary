@@ -1,10 +1,10 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { IoLogoGithub } from "react-icons/io";
-import { createClient } from "@/utils/supabase/server";
 import LoginButton from "@/components/login-button";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
   const supabase = await createClient();

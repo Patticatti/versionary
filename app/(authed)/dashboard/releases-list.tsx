@@ -1,11 +1,14 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   GitBranch,
   GitCommitHorizontal,
   EllipsisVertical,
   File,
+  RefreshCcw,
 } from "lucide-react";
-
+import Image from "next/image";
+import { useZustandStore } from "@/state/zustandStore";
 interface Release {
   title: string;
   dateReleased: string;
@@ -97,11 +100,29 @@ function ReleaseCard({
 }
 
 export default function ReleasesList() {
+  const { user } = useZustandStore();
   return (
-    <div className="bg-background border rounded-xl">
-      {releases.map((release) => (
-        <ReleaseCard key={release.title} {...release} />
-      ))}
-    </div>
+    <>
+      <span className="mb-4 font-normal text-muted-foreground text-sm inline-flex gap-1">
+        <RefreshCcw className="size-4 -rotate-40 mr-2" />
+        <p>Continuously generated </p>
+        <strong className="font-normal text-foreground">every week</strong> from
+        <strong className="font-normal text-foreground font-mono">
+          {user?.user_metadata.preferred_username}/new-startup
+        </strong>
+        <Image
+          src={user?.user_metadata.avatar_url || "/sponebob.webp"}
+          width={20}
+          height={20}
+          className="rounded-full w-5 h-5"
+          alt="Avatar"
+        />
+      </span>
+      <div className="bg-background border rounded-xl">
+        {releases.map((release) => (
+          <ReleaseCard key={release.title} {...release} />
+        ))}
+      </div>{" "}
+    </>
   );
 }

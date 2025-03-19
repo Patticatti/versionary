@@ -6,24 +6,51 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { LucideIcon } from "lucide-react";
+import { House, FilePenLine, Blocks, Settings } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) {
+export function NavMain() {
+  const items = [
+    {
+      title: "Project Overview",
+      url: "/dashboard",
+      icon: House,
+    },
+    {
+      title: "Editor",
+      url: "/editor",
+      icon: FilePenLine,
+    },
+    {
+      title: "Integrations",
+      url: "/integrations",
+      icon: Blocks,
+    },
+    {
+      title: "Settings",
+      url: "/settings",
+      icon: Settings,
+      items: [
+        {
+          title: "General",
+          url: "#",
+        },
+        {
+          title: "Team",
+          url: "#",
+        },
+        {
+          title: "Billing",
+          url: "#",
+        },
+        {
+          title: "Limits",
+          url: "#",
+        },
+      ],
+    },
+  ];
   const pathName = usePathname();
   return (
     <SidebarGroup className="pt-6 px-3 group-has-data-[collapsible=icon]/sidebar-wrapper:px-2">

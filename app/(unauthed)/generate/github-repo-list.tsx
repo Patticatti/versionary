@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchGroupedRepos, fetchGroupedCommits } from "@/utils/github/actions";
 import updateRepository from "@/utils/github/clientActions";
-import { Repo } from "@/app/types/types";
+import { Repo } from "@/db/types";
 import {
   Pagination,
   PaginationContent,
@@ -84,7 +84,7 @@ const RepoItem = memo(
 RepoItem.displayName = "RepoItem";
 
 export default function GitHubRepos({ user }: { user: User }) {
-  const [repos, setRepos] = useState<Repo[][]>([]);
+  const [repos, setRepos] = useState<Repo[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [commitMessages, setCommitMessages] = useState<CommitMessages>({});
@@ -99,7 +99,7 @@ export default function GitHubRepos({ user }: { user: User }) {
       try {
         const grouped = await fetchGroupedRepos(perPage);
         setRepos(grouped);
-        const total = grouped.reduce((sum, group) => sum + group.length, 0);
+        const total = grouped.length;
         setTotalRepos(total);
       } catch (error) {
         console.error("Error fetching grouped repos:", error);
@@ -140,14 +140,16 @@ export default function GitHubRepos({ user }: { user: User }) {
         repo.owner.login,
         repo.name
       );
-      setCommitMessages((prev) => ({ ...prev, [repo.name]: groupedMessages }));
+      setCommitMessages((prev) => ({
+        ...prev,
+        [repo.name]: groupedMessages,
+      }));
       await updateRepository({
         github_id: Number(repo.id),
         user_id: user.id as string,
         name: repo.name,
         owner: repo.owner.login,
         html_url: repo.html_url,
-        data: repo,
         setLoading: setLoading,
       });
       router.push(`/dashboard/${repo.name}`);
