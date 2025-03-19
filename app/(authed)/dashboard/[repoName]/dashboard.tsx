@@ -57,9 +57,11 @@ export default function DashboardPage({
         </div>
         <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
       </div>
-      <div>
-        {user.user_metadata.full_name} and {repoName} and {repoData?.id}
-      </div>
+      {!loading && (
+        <div>
+          {user.user_metadata.full_name} and {repoName} and {repoData?.id}
+        </div>
+      )}
     </>
   );
 }
