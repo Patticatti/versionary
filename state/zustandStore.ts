@@ -1,13 +1,14 @@
-import { Repo } from "@/db/types";
+import { Repo, Release } from "@/db/types";
 import { create } from "zustand";
 import { User } from "@supabase/supabase-js";
-
 interface AuthedState {
   repos: Repo[];
   currentRepo: Repo | null;
+  currentReleases: Release[] | null;
   user?: User;
   loading: boolean;
-  setRepos: (r: Repo[]) => void;
+  setRepos: (repos: Repo[]) => void;
+  setCurrentReleases: (r: Release[]) => void;
   setCurrentRepo: (r: Repo) => void;
   setUser: (u: User) => void;
   setLoading: (loading: boolean) => void;
@@ -16,6 +17,7 @@ interface AuthedState {
 
 export const useZustandStore = create<AuthedState>((set, get) => ({
   currentRepo: null,
+  currentReleases: [],
   repos: [],
   loading: true,
   setCurrentRepo: (r) => {
@@ -30,9 +32,10 @@ export const useZustandStore = create<AuthedState>((set, get) => ({
       loading: false,
     }));
   },
-  setRepos: (r) => {
+  setRepos: (repos) => set({ repos }),
+  setCurrentReleases: (r: Release[]) => {
     set((state) => ({
-      repos: r,
+      currentReleases: r,
       loading: false,
     }));
   },

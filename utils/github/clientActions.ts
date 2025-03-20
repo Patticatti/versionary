@@ -2,7 +2,6 @@
 
 import { SetStateAction } from "react";
 import { createClient } from "../supabase/client";
-import { useZustandStore } from "@/state/zustandStore";
 
 export default function updateRepository({
   github_id,
@@ -19,7 +18,6 @@ export default function updateRepository({
   html_url: string;
   setLoading: (value: SetStateAction<boolean>) => void;
 }) {
-  const { setRepos, repos } = useZustandStore();
   return new Promise<void>(async (resolve, reject) => {
     const supabase = createClient();
     setLoading(true);
@@ -40,10 +38,9 @@ export default function updateRepository({
 
       if (error) {
         console.error("Supabase error:", error.message);
+
         throw new Error(error.message);
       }
-
-      setRepos([...repos, repositoryData]);
 
       resolve();
     } catch (error) {

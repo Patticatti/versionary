@@ -4,18 +4,18 @@ import {
   useEffect,
   useMemo,
   useCallback,
-  Suspense,
+  // Suspense,
   memo,
 } from "react";
 import Link from "next/link";
 import { User } from "@supabase/supabase-js";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { RiGithubFill } from "react-icons/ri";
 import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fetchGroupedRepos, fetchGroupedCommits } from "@/utils/github/actions";
+import { fetchGroupedRepos } from "@/utils/github/actions";
 import updateRepository from "@/utils/github/clientActions";
 import { Repo } from "@/db/types";
 import {
@@ -26,16 +26,18 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useRouter } from "next/navigation";
+import { useZustandStore } from "@/state/zustandStore";
+// import { Release } from "@/db/types";
 
 // Lazy load components that aren't immediately needed
-const CommitMessages = dynamic(() => import("./commit-messages"), {
-  loading: () => <Skeleton className="h-24 w-full" />,
-  ssr: false,
-});
+// const CommitMessages = dynamic(() => import("./commit-messages"), {
+//   loading: () => <Skeleton className="h-24 w-full" />,
+//   ssr: false,
+// });
 
-interface CommitMessages {
-  [repoName: string]: string[] | string[][];
-}
+// interface CommitMessages {
+//   [repoName: string]: Release[][];
+// }
 
 // Debounce utility with proper typing
 const debounce = <T extends (...args: string[]) => void>(
@@ -54,11 +56,11 @@ const RepoItem = memo(
   ({
     repo,
     onImportClick,
-    commitMessages,
+    isImported,
   }: {
     repo: Repo;
     onImportClick: (repo: Repo) => Promise<void>;
-    commitMessages: CommitMessages;
+    isImported: boolean;
   }) => (
     <div className="p-4 flex flex-col gap-2">
       <div className="flex justify-between items-center">
@@ -71,23 +73,25 @@ const RepoItem = memo(
           </Link>
           {repo.private && <Lock size={16} className="text-muted-foreground" />}
         </div>
-        <Button onClick={() => onImportClick(repo)}>Import</Button>
+        <Button onClick={() => onImportClick(repo)} disabled={isImported}>
+          {isImported ? "Imported" : "Import"}
+        </Button>
       </div>
-      {commitMessages[repo.name] && (
-        <Suspense fallback={<Skeleton className="h-24 w-full" />}>
-          <CommitMessages messages={commitMessages[repo.name]} />
-        </Suspense>
-      )}
     </div>
   )
 );
 RepoItem.displayName = "RepoItem";
 
 export default function GitHubRepos({ user }: { user: User }) {
-  const [repos, setRepos] = useState<Repo[]>([]);
+  const { repos, setRepos } = useZustandStore();
+  const [groupedRepos, setGroupedRepos] = useState<Repo[]>([]);
+  const existingRepoIds = useMemo(
+    () => new Set(repos.map((r) => r.github_id)),
+    [repos]
+  );
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const [commitMessages, setCommitMessages] = useState<CommitMessages>({});
+  // const [commitMessages, setCommitMessages] = useState<CommitMessages>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRepos, setTotalRepos] = useState<number>(0);
   const router = useRouter();
@@ -98,7 +102,7 @@ export default function GitHubRepos({ user }: { user: User }) {
       setLoading(true);
       try {
         const grouped = await fetchGroupedRepos(perPage);
-        setRepos(grouped);
+        setGroupedRepos(grouped);
         const total = grouped.length;
         setTotalRepos(total);
       } catch (error) {
@@ -112,14 +116,14 @@ export default function GitHubRepos({ user }: { user: User }) {
 
   // Memoized filtered repos
   const filteredRepos = useMemo(() => {
-    const allRepos = repos.flat();
+    const allRepos = groupedRepos.flat();
 
     return searchQuery
       ? allRepos.filter((repo) =>
           repo.name.toLowerCase().includes(searchQuery.toLowerCase())
         )
       : allRepos.slice((currentPage - 1) * perPage, currentPage * perPage);
-  }, [repos, currentPage, searchQuery]);
+  }, [groupedRepos, currentPage, searchQuery]);
 
   // Debounced search
   const debouncedSearch = useMemo(
@@ -134,29 +138,25 @@ export default function GitHubRepos({ user }: { user: User }) {
     [debouncedSearch]
   );
 
-  const handleImportClick = useCallback(async (repo: Repo) => {
-    try {
-      const groupedMessages = await fetchGroupedCommits(
-        repo.owner.login,
-        repo.name
-      );
-      setCommitMessages((prev) => ({
-        ...prev,
-        [repo.name]: groupedMessages,
-      }));
-      await updateRepository({
-        github_id: Number(repo.id),
-        user_id: user.id as string,
-        name: repo.name,
-        owner: repo.owner.login,
-        html_url: repo.html_url,
-        setLoading: setLoading,
-      });
-      router.push(`/${repo.name}/dashboard`);
-    } catch (error) {
-      console.error("Error fetching commit messages:", error);
-    }
-  }, []);
+  const handleImportClick = useCallback(
+    async (repo: Repo) => {
+      try {
+        await updateRepository({
+          github_id: Number(repo.id),
+          user_id: user.id as string,
+          name: repo.name,
+          owner: repo.owner.login,
+          html_url: repo.html_url,
+          setLoading: setLoading,
+        });
+        setRepos([...repos, repo]);
+        router.push(`/${repo.name}/dashboard`);
+      } catch (error) {
+        console.error("Error importing repository:", error);
+      }
+    },
+    [user.id, router, repos]
+  );
 
   const handlePageChange = useCallback(
     (newPage: number) => {
@@ -197,7 +197,7 @@ export default function GitHubRepos({ user }: { user: User }) {
               key={`${repo.id}-${repo.name}`}
               repo={repo}
               onImportClick={handleImportClick}
-              commitMessages={commitMessages}
+              isImported={existingRepoIds.has(Number(repo.id))}
             />
           ))}
         </div>

@@ -9,22 +9,38 @@ export interface Repo {
   private?: boolean;
 }
 
+// export interface Commit {
+//   sha: string;
+//   commit: {
+//     author: {
+//       name: string;
+//       email: string;
+//     };
+//     name: string;
+//     email: string;
+//     date: string;
+//     message: string;
+//   };
+//   author?: {
+//     login: string;
+//   };
+//   committer?: {
+//     login: string;
+//   };
+// }
+
 export interface Commit {
-  sha: string;
-  commit: {
-    author: {
-      name: string;
-      email: string;
-    };
-      name: string;
-      email: string;
-      date: string;
-    message: string;
-  };
-  author?: {
-    login: string;
-  };
-  committer?: {
-    login: string;
-  };
+  commitHash: string;
+  commitMessage: string;
+  date: string;
+  author: string;
+}
+
+export interface Release {
+  title: string;
+  dateReleased: string;
+  branch: string;
+  commitHash: string;
+  commitMessage: string;
+  commits: Commit[];
 }
