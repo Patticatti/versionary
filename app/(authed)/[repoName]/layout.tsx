@@ -1,6 +1,7 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
+import { RepoProvider } from "./repo-provider";
 
 export default async function DashboardPage({
   children,
@@ -8,9 +9,11 @@ export default async function DashboardPage({
   children: ReactNode;
 }) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>{children}</SidebarInset>
-    </SidebarProvider>
+    <RepoProvider>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>{children}</SidebarInset>
+      </SidebarProvider>
+    </RepoProvider>
   );
 }
