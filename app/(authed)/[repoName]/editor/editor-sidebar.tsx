@@ -24,7 +24,7 @@ import { usePathname } from "next/navigation";
 import { useZustandStore } from "@/state/zustandStore";
 
 export default function EditorSidebar() {
-  const { currentReleases, setCurrentReleases } = useZustandStore();
+  const { currentReleases } = useZustandStore();
   // const projects = [
   //   {
   //     name: "2025-02-24.acacia",

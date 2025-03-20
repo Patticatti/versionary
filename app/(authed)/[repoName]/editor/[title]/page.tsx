@@ -28,9 +28,9 @@ export default function EditorPage() {
           );
           if (filteredRelease) {
             setCommitsData(filteredRelease.commits);
-            const commitMessages = filteredRelease.commits
-              .map((commit) => commit.commitMessage)
-              .join("\n");
+            // const commitMessages = filteredRelease.commits
+            //   .map((commit) => commit.commitMessage)
+            //   .join("\n");
 
             // const prompt = `Generate a changelog from this. Give it a title that summarizes all the changes made. Divide these commits into categories with bullet points. Try to aim for 3-5 categories: \n${commitMessages}`;
 
