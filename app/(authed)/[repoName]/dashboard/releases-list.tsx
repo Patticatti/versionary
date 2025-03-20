@@ -116,7 +116,7 @@ export default function ReleasesList({
     if (repoOwner && repoName) {
       getCommits();
     }
-  }, [repoOwner, repoName]);
+  }, [repoOwner, repoName, setCurrentReleases]);
 
   return (
     <>

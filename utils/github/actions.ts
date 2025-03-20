@@ -81,7 +81,6 @@ export async function fetchGroupedCommits(
   // No need to reverse, just chunk into groups of 30
   for (let i = 0; i < allCommits.length; i += 30) {
     const batch = allCommits.slice(i, i + 30);
-    if (batch.length === 0) continue;
 
     const latestCommit = batch[0]; // The latest commit is the first one in the batch
     releases.push({

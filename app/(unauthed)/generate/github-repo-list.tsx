@@ -149,15 +149,13 @@ export default function GitHubRepos({ user }: { user: User }) {
           html_url: repo.html_url,
           setLoading: setLoading,
         });
-        const currentRepos = [...repos];
-        const updatedRepos = [...currentRepos, repo];
-        setRepos(updatedRepos);
+        setRepos([...repos, repo]);
         router.push(`/${repo.name}/dashboard`);
       } catch (error) {
         console.error("Error fetching commit messages:", error);
       }
     },
-    [user.id, router]
+    [user.id, router, repos]
   );
 
   const handlePageChange = useCallback(

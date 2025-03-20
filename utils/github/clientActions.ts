@@ -39,8 +39,7 @@ export default function updateRepository({
       if (error) {
         console.error("Supabase error:", error.message);
 
-        reject(new Error(error.message));
-        return;
+        throw new Error(error.message);
       }
 
       resolve();
