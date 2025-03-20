@@ -9,8 +9,8 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
 import { RotateCcw, ExternalLink } from "lucide-react";
 import { RiGithubFill } from "react-icons/ri";
-import DeploymentSection from "../deployment-section";
-import ReleasesList from "../releases-list";
+import DeploymentSection from "./deployment-section";
+import ReleasesList from "./releases-list";
 // import { useZustandStore } from "@/state/zustandStore";
 
 export default function DashboardPage({
