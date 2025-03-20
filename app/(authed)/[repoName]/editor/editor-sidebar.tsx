@@ -25,23 +25,6 @@ import { useZustandStore } from "@/state/zustandStore";
 
 export default function EditorSidebar() {
   const { currentReleases } = useZustandStore();
-  // const projects = [
-  //   {
-  //     name: "2025-02-24.acacia",
-  //     url: "2025-02-24.acacia",
-  //     icon: File,
-  //   },
-  //   {
-  //     name: "2025-02-16.acacia",
-  //     url: "2025-02-16.acacia",
-  //     icon: File,
-  //   },
-  //   {
-  //     name: "2025-02-09.acacia",
-  //     url: "2025-02-09.acacia",
-  //     icon: File,
-  //   },
-  // ];
   const { isMobile } = useSidebar();
   const pathName = usePathname();
   const repoName = pathName.split("/")[1];
