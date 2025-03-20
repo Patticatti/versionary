@@ -113,7 +113,7 @@ export function NavUser() {
               <form action="/auth/signout" method="post">
                 <button
                   type="submit"
-                  className="cursor-pointer inline-flex items-center cursor-pointer gap-2"
+                  className="inline-flex items-center cursor-pointer gap-2"
                 >
                   <LogOut />
                   Log out
