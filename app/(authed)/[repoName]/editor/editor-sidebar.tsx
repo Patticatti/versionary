@@ -55,7 +55,14 @@ export default function EditorSidebar() {
           <SidebarMenu>
             {currentReleases?.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton
+                  asChild
+                  className={
+                    pathName.split("/").pop() === item.title
+                      ? "text-[#1E64EC] hover:!text-[#1E64EC]"
+                      : ""
+                  }
+                >
                   <Link href={`/${repoName}/editor/${item.title}`}>
                     <File />
                     <span>{item.title}</span>

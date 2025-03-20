@@ -45,8 +45,8 @@ export default function EditorPage() {
         {commitsData.map((commit) => (
           <div key={commit.commitHash}>
             <h3>{commit.commitMessage}</h3>
-            <p>Author: {commit.author}</p>
-            <p>Date: {commit.date}</p>
+            {/* <p>Author: {commit.author}</p>
+            <p>Date: {commit.date}</p> */}
           </div>
         ))}
       </div>
