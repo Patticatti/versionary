@@ -3,13 +3,7 @@
 import { useZustandStore } from "@/state/zustandStore";
 import { redirect } from "next/navigation";
 
-export default function Page({
-  params,
-}: {
-  params: {
-    repoName: string;
-  };
-}) {
+export default function Page() {
   const { repos, user } = useZustandStore();
 
   if (!user) {
