@@ -32,8 +32,8 @@ export default function AuthProvider() {
           setRepos(repositories); // Store repositories in Zustand
         }
       } else {
-        redirect("/");
         setLoading(false);
+        redirect("/");
       }
     };
 
