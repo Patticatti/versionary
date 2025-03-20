@@ -199,7 +199,7 @@ export default function GitHubRepos({ user }: { user: User }) {
               key={`${repo.id}-${repo.name}`}
               repo={repo}
               onImportClick={handleImportClick}
-              isImported={existingRepoIds.has(repo.id)}
+              isImported={existingRepoIds.has(Number(repo.id))}
             />
           ))}
         </div>
