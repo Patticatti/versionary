@@ -66,10 +66,8 @@ function ReleaseCard({
       <div className="flex gap-2 min-w-1/3">
         <File className="size-4 shrink-0 mr-1 text-muted-foreground" />
         <div className="overflow-hidden mr-8">
-          <Link href={`/${repoName}/editor/${title}`} passHref>
-            <p className="text-md font-semibold tracking-tight leading-[1em] cursor-pointer">
+          <Link href={`/${repoName}/editor/${title}`} className="text-md font-semibold tracking-tight leading-[1em] cursor-pointer">
               {title}
-            </p>
           </Link>
           <p className="mt-2 text-sm text-muted-foreground truncate">
             {dateReleased}
