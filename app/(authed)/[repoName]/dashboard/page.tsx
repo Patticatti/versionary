@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getRepoByName } from "@/utils/github/actions";
-import { Repo } from "@/db/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -12,22 +11,23 @@ import DeploymentSection from "./deployment-section";
 import ReleasesList from "./releases-list";
 import { usePathname } from "next/navigation";
 import { useZustandStore } from "@/state/zustandStore";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
-  const { user } = useZustandStore();
+  const { user, currentRepo, setCurrentRepo } = useZustandStore();
   const pathName = usePathname();
   const repoName = pathName.split("/")[1];
-  const [repoData, setRepoData] = useState<Repo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setLoading(true);
     async function fetchRepo() {
       try {
         const data = await getRepoByName(
           user?.user_metadata.user_name,
           repoName
         );
-        setRepoData(data);
+        setCurrentRepo(data);
       } catch (error) {
         console.error("Error fetching repository:", error);
       } finally {
@@ -40,29 +40,49 @@ export default function DashboardPage() {
 
   return (
     <>
-      <DashboardHeader repoName={repoName} />
+      <DashboardHeader repoName={repoName} isPrivate={currentRepo?.private} />
       <div className="flex bg-muted/50 flex-1 flex-col items-center gap-4 pt-0">
         <div className="py-6 px-4 md:px-6 lg:px-8 w-full max-w-screen-xl">
           {/* <h1 className="py-6 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
             Project Overview
           </h1> */}
-          <DeploymentSection />
-          <h2 className="pt-9 pb-4 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
-            Releases
-          </h2>
-          <ReleasesList />
+          {loading ? (
+            // Show skeletons while loading
+            <>
+              <Skeleton className="h-72 w-full mb-4" />
+              <h2 className="pt-9 pb-4 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
+                Releases
+              </h2>
+              <Skeleton className="h-8 w-2/3" />
+              <Skeleton className="h-8 w-2/3" />
+            </>
+          ) : (
+            <>
+              <DeploymentSection />
+              <h2 className="pt-9 pb-4 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
+                Releases
+              </h2>
+              <ReleasesList />
+            </>
+          )}
         </div>
         <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
       </div>
-      {!loading && (
+      {/* {!loading && (
         <div>
-          {user?.user_metadata.full_name} and {repoName} and {repoData?.id}
+          {user?.user_metadata.full_name} and {repoName} and {currentRepo?.id}
         </div>
-      )}
+      )} */}
     </>
   );
 }
-function DashboardHeader({ repoName }: { repoName: string }) {
+function DashboardHeader({
+  repoName,
+  isPrivate,
+}: {
+  repoName: string;
+  isPrivate: boolean | undefined;
+}) {
   return (
     <header className="bg-muted/50 border-b flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
       <div className="flex items-center px-4">
@@ -79,7 +99,7 @@ function DashboardHeader({ repoName }: { repoName: string }) {
           variant="outline"
           className="ml-2 bg-background font-normal text-muted-foreground rounded-full"
         >
-          Private
+          {isPrivate ? "Private" : "Public"}
         </Badge>
       </div>
       <div className="flex items-center gap-2 px-4">
