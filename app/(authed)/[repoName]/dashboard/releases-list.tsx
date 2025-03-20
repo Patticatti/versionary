@@ -138,7 +138,7 @@ export default function ReleasesList({
         />
       </span>
       <div className="bg-background border rounded-xl">
-        {currentReleases?.flat().map((release) => (
+        {currentReleases?.map((release) => (
           <ReleaseCard
             key={release.commitHash}
             {...release}
