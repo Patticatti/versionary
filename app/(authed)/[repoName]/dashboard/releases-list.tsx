@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   GitBranch,
@@ -107,7 +107,6 @@ export default function ReleasesList({
     async function getCommits() {
       try {
         const data: Release[] = await fetchGroupedCommits(repoOwner, repoName);
-        console.log("yes and" + JSON.stringify(data));
         setCurrentReleases(data);
       } catch (error) {
         console.error("Error fetching commits:", error);
