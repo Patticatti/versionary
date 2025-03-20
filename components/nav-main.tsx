@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { House, FilePenLine, Blocks, Settings } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export function NavMain() {
@@ -52,7 +52,6 @@ export function NavMain() {
     },
   ];
   const pathName = usePathname();
-  const router = useRouter();
   const repoName = pathName.split("/")[1];
   return (
     <SidebarGroup className="pt-6 px-3 group-has-data-[collapsible=icon]/sidebar-wrapper:px-2">
