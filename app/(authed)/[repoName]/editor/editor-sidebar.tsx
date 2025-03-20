@@ -20,6 +20,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { Folder, Forward, File, MoreHorizontal, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function EditorSidebar() {
   const projects = [
@@ -40,6 +41,8 @@ export default function EditorSidebar() {
     },
   ];
   const { isMobile } = useSidebar();
+  const pathName = usePathname();
+  const repoName = pathName.split("/")[1];
   return (
     <div className="h-full w-[240px] border-r border-neutral-200">
       <SidebarHeader className="px-5 border-b border-b-neutral-200 py-4 text-md font-semibold flex justify-between gap-4">
@@ -51,7 +54,7 @@ export default function EditorSidebar() {
             {projects.map((item) => (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton asChild>
-                  <Link href={`/editor/${item.url}`}>
+                  <Link href={`/${repoName}/editor/${item.url}`}>
                     <item.icon />
                     <span>{item.name}</span>
                   </Link>

@@ -31,7 +31,7 @@ export function RepoSwitcher() {
 
   const handleRepoChange = (repo: Repo) => {
     setActiveRepo(repo);
-    router.push(`/dashboard/${repo.name}`);
+    router.push(`/${repo.name}/dashboard`);
   };
 
   return (

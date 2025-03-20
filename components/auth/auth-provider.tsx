@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useZustandStore } from "@/state/zustandStore";
+import { redirect } from "next/navigation";
 
 export default function AuthProvider() {
   const { setUser, setLoading, reset, setRepos } = useZustandStore(); // Add setRepositories state
@@ -32,6 +33,7 @@ export default function AuthProvider() {
         }
       } else {
         setLoading(false);
+        redirect("/");
       }
     };
 

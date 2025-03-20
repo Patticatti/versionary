@@ -52,6 +52,7 @@ export function NavMain() {
     },
   ];
   const pathName = usePathname();
+  const repoName = pathName.split("/")[1];
   return (
     <SidebarGroup className="pt-6 px-3 group-has-data-[collapsible=icon]/sidebar-wrapper:px-2">
       <SidebarGroupLabel className="hidden">Platform</SidebarGroupLabel>
@@ -61,12 +62,12 @@ export function NavMain() {
             <SidebarMenuButton
               asChild
               className={
-                pathName === item.url
+                pathName.split("/").pop() === item.url.slice(1)
                   ? "text-[#1E64EC] hover:!text-[#1E64EC]"
                   : ""
               }
             >
-              <Link href={item.url}>
+              <Link href={`/${repoName}${item.url}`}>
                 <item.icon />
                 <span className="ps-1">{item.title}</span>
               </Link>
