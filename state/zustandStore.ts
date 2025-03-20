@@ -7,7 +7,7 @@ interface AuthedState {
   currentReleases: Release[] | null;
   user?: User;
   loading: boolean;
-  setRepos: (r: Repo[]) => void;
+  setRepos: (repos: Repo[]) => void;
   setCurrentReleases: (r: Release[]) => void;
   setCurrentRepo: (r: Repo) => void;
   setUser: (u: User) => void;
@@ -32,12 +32,7 @@ export const useZustandStore = create<AuthedState>((set, get) => ({
       loading: false,
     }));
   },
-  setRepos: (r) => {
-    set((state) => ({
-      repos: r,
-      loading: false,
-    }));
-  },
+  setRepos: (repos) => set({ repos }),
   setCurrentReleases: (r: Release[]) => {
     set((state) => ({
       currentReleases: r,
