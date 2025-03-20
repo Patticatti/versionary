@@ -16,10 +16,9 @@ export interface Commit {
       name: string;
       email: string;
     };
-    committer: {
       name: string;
+      email: string;
       date: string;
-    };
     message: string;
   };
   author: {
