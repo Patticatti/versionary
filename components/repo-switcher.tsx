@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { ChevronsUpDown, Plus } from "lucide-react";
 import { RiGithubFill } from "react-icons/ri";
 import Link from "next/link";
@@ -22,15 +21,12 @@ import { useRouter } from "next/navigation";
 import { Repo } from "@/db/types";
 
 export function RepoSwitcher() {
-  const { repos } = useZustandStore();
-  const [activeRepo, setActiveRepo] = useState(repos[0]);
+  const { repos, currentRepo, setCurrentRepo } = useZustandStore();
   const router = useRouter();
-  if (!activeRepo) {
-    return null;
-  }
+  if (!currentRepo) return null;
 
   const handleRepoChange = (repo: Repo) => {
-    setActiveRepo(repo);
+    setCurrentRepo(repo);
     router.push(`/${repo.name}/dashboard`);
   };
 
@@ -48,7 +44,7 @@ export function RepoSwitcher() {
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="ml-1 truncate font-medium">
-                  {activeRepo.name}
+                  {currentRepo.name}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto" />

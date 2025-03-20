@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   GitBranch,
   GitCommitHorizontal,
@@ -58,15 +59,16 @@ function ReleaseCard({
   branch,
   commitHash,
   commitMessage,
-}: Release) {
+  repoName,
+}: Release & { repoName: string }) {
   return (
     <div className="flex items-center gap-2 px-5 py-4 border-b">
       <div className="flex gap-2 min-w-1/3">
         <File className="size-4 shrink-0 mr-1 text-muted-foreground" />
         <div className="overflow-hidden mr-8">
-          <p className="text-md font-semibold tracking-tight leading-[1em]">
-            {title}
-          </p>
+          <Link href={`/${repoName}/editor/${title}`} className="text-md font-semibold tracking-tight leading-[1em] cursor-pointer">
+              {title}
+          </Link>
           <p className="mt-2 text-sm text-muted-foreground truncate">
             {dateReleased}
           </p>
@@ -136,8 +138,12 @@ export default function ReleasesList({
         />
       </span>
       <div className="bg-background border rounded-xl">
-        {currentReleases?.flat().map((release) => (
-          <ReleaseCard key={release.commitHash} {...release} />
+        {currentReleases?.map((release) => (
+          <ReleaseCard
+            key={release.commitHash}
+            {...release}
+            repoName={repoName}
+          />
         ))}
       </div>
     </>

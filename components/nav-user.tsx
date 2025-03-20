@@ -24,13 +24,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useZustandStore } from "@/state/zustandStore";
-import { redirect } from "next/navigation";
 
 export function NavUser() {
   const { user } = useZustandStore();
-  if (!user) {
-    redirect("/");
-  }
+  // if (!user) {
+  //   redirect("/");
+  // }
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -42,17 +41,17 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
-                  src={user.user_metadata.avatar_url}
-                  alt={user.user_metadata.name}
+                  src={user?.user_metadata.avatar_url}
+                  alt={user?.user_metadata.name}
                 />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">
-                  {user.user_metadata.name}
+                  {user?.user_metadata.name}
                 </span>
                 <span className="truncate text-xs">
-                  {user.user_metadata.email}
+                  {user?.user_metadata.email}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -68,17 +67,17 @@ export function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    src={user.user_metadata.avatar_url}
-                    alt={user.user_metadata.name}
+                    src={user?.user_metadata.avatar_url}
+                    alt={user?.user_metadata.name}
                   />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">
-                    {user.user_metadata.name}
+                    {user?.user_metadata.name}
                   </span>
                   <span className="truncate text-xs">
-                    {user.user_metadata.email}
+                    {user?.user_metadata.email}
                   </span>
                 </div>
               </div>
@@ -114,7 +113,7 @@ export function NavUser() {
               <form action="/auth/signout" method="post">
                 <button
                   type="submit"
-                  className="cursor-pointer inline-flex gap-2"
+                  className="inline-flex items-center cursor-pointer gap-2"
                 >
                   <LogOut />
                   Log out

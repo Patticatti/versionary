@@ -1,6 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
-import { getRepoByName } from "@/utils/github/actions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -14,29 +12,9 @@ import { useZustandStore } from "@/state/zustandStore";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
-  const { user, currentRepo, setCurrentRepo } = useZustandStore();
+  const { user, currentRepo, loading } = useZustandStore();
   const pathName = usePathname();
   const repoName = pathName.split("/")[1];
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    setLoading(true);
-    async function fetchRepo() {
-      try {
-        const data = await getRepoByName(
-          user?.user_metadata.user_name,
-          repoName
-        );
-        setCurrentRepo(data);
-      } catch (error) {
-        console.error("Error fetching repository:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchRepo();
-  }, [user?.user_metadata.user_name, repoName]);
 
   return (
     <>

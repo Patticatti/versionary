@@ -21,25 +21,10 @@ import {
 import { Folder, Forward, File, MoreHorizontal, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useZustandStore } from "@/state/zustandStore";
 
 export default function EditorSidebar() {
-  const projects = [
-    {
-      name: "2025-02-24.acacia",
-      url: "2025-02-24.acacia",
-      icon: File,
-    },
-    {
-      name: "2025-02-16.acacia",
-      url: "2025-02-16.acacia",
-      icon: File,
-    },
-    {
-      name: "2025-02-09.acacia",
-      url: "2025-02-09.acacia",
-      icon: File,
-    },
-  ];
+  const { currentReleases } = useZustandStore();
   const { isMobile } = useSidebar();
   const pathName = usePathname();
   const repoName = pathName.split("/")[1];
@@ -51,12 +36,19 @@ export default function EditorSidebar() {
       <SidebarContent>
         <SidebarGroup className="group-data-[collapsible=icon]:hidden p-3">
           <SidebarMenu>
-            {projects.map((item) => (
-              <SidebarMenuItem key={item.name}>
-                <SidebarMenuButton asChild>
-                  <Link href={`/${repoName}/editor/${item.url}`}>
-                    <item.icon />
-                    <span>{item.name}</span>
+            {currentReleases?.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  asChild
+                  className={
+                    pathName.split("/").pop() === item.title
+                      ? "text-[#1E64EC] hover:!text-[#1E64EC]"
+                      : ""
+                  }
+                >
+                  <Link href={`/${repoName}/editor/${item.title}`}>
+                    <File />
+                    <span>{item.title}</span>
                   </Link>
                 </SidebarMenuButton>
                 <DropdownMenu>
