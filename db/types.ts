@@ -8,3 +8,24 @@ export interface Repo {
   created_at?: string | Date;
   private?: boolean;
 }
+
+export interface Commit {
+  sha: string;
+  commit: {
+    author: {
+      name: string;
+      email: string;
+    };
+    committer: {
+      name: string;
+      date: string;
+    };
+    message: string;
+  };
+  author: {
+    login: string;
+  };
+  committer: {
+    login: string;
+  };
+}
