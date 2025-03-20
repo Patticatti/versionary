@@ -68,7 +68,7 @@ export default function EditorPage() {
 
   return (
     <div>
-      <h1>{title + "pop"}</h1>
+      <h1>{title}</h1>
       <div>
         {commitsData.map((commit) => (
           <div key={commit.commitHash}>
