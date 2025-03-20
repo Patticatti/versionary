@@ -24,7 +24,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useZustandStore } from "@/state/zustandStore";
-import { redirect } from "next/navigation";
 
 export function NavUser() {
   const { user } = useZustandStore();
