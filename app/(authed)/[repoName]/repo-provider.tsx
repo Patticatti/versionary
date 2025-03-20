@@ -39,7 +39,7 @@ export const RepoProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     if (user) fetchCurrentRepo();
-  }, [user?.user_metadata.user_name]);
+  }, [user?.user_metadata.user_name, repoName]);
 
   return (
     <RepoContext.Provider value={{ currentRepo, loading }}>
