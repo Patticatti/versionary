@@ -152,7 +152,7 @@ export default function GitHubRepos({ user }: { user: User }) {
         setRepos([...repos, repo]);
         router.push(`/${repo.name}/dashboard`);
       } catch (error) {
-        console.error("Error fetching commit messages:", error);
+        console.error("Error importing repository:", error);
       }
     },
     [user.id, router, repos]
