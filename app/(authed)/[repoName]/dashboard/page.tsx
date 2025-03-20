@@ -53,8 +53,8 @@ export default function DashboardPage() {
               <h2 className="pt-9 pb-4 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
                 Releases
               </h2>
-              <Skeleton className="h-8 w-2/3" />
-              <Skeleton className="h-8 w-2/3" />
+              <Skeleton className="h-24 w-2/3" />
+              <Skeleton className="mt-24 h-8 w-2/3" />
             </>
           ) : (
             <>
@@ -62,7 +62,10 @@ export default function DashboardPage() {
               <h2 className="pt-9 pb-4 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
                 Releases
               </h2>
-              <ReleasesList />
+              <ReleasesList
+                repoOwner={user?.user_metadata.user_name}
+                repoName={repoName}
+              />
             </>
           )}
         </div>

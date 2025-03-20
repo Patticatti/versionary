@@ -16,9 +16,9 @@ export interface Commit {
       name: string;
       email: string;
     };
-      name: string;
-      email: string;
-      date: string;
+    name: string;
+    email: string;
+    date: string;
     message: string;
   };
   author?: {
@@ -27,4 +27,12 @@ export interface Commit {
   committer?: {
     login: string;
   };
+}
+
+export interface Release {
+  title: string;
+  dateReleased: string;
+  branch: string;
+  commitHash: string;
+  commitMessage: string;
 }

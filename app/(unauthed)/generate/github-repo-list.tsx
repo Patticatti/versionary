@@ -26,6 +26,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useRouter } from "next/navigation";
+import { Release } from "@/db/types";
 
 // Lazy load components that aren't immediately needed
 const CommitMessages = dynamic(() => import("./commit-messages"), {
@@ -34,7 +35,7 @@ const CommitMessages = dynamic(() => import("./commit-messages"), {
 });
 
 interface CommitMessages {
-  [repoName: string]: string[] | string[][];
+  [repoName: string]: Release[][];
 }
 
 // Debounce utility with proper typing
@@ -75,7 +76,11 @@ const RepoItem = memo(
       </div>
       {commitMessages[repo.name] && (
         <Suspense fallback={<Skeleton className="h-24 w-full" />}>
-          <CommitMessages messages={commitMessages[repo.name]} />
+          <CommitMessages
+            messages={(commitMessages[repo.name] as Release[][]).map((group) =>
+              group.map((release) => release.commitMessage)
+            )}
+          />
         </Suspense>
       )}
     </div>
