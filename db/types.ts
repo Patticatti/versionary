@@ -21,10 +21,10 @@ export interface Commit {
       date: string;
     message: string;
   };
-  author: {
+  author?: {
     login: string;
   };
-  committer: {
+  committer?: {
     login: string;
   };
 }
