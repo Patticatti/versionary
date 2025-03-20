@@ -29,14 +29,14 @@ import { useRouter } from "next/navigation";
 import { Release } from "@/db/types";
 
 // Lazy load components that aren't immediately needed
-const CommitMessages = dynamic(() => import("./commit-messages"), {
-  loading: () => <Skeleton className="h-24 w-full" />,
-  ssr: false,
-});
+// const CommitMessages = dynamic(() => import("./commit-messages"), {
+//   loading: () => <Skeleton className="h-24 w-full" />,
+//   ssr: false,
+// });
 
-interface CommitMessages {
-  [repoName: string]: Release[][];
-}
+// interface CommitMessages {
+//   [repoName: string]: Release[][];
+// }
 
 // Debounce utility with proper typing
 const debounce = <T extends (...args: string[]) => void>(
@@ -55,11 +55,11 @@ const RepoItem = memo(
   ({
     repo,
     onImportClick,
-    commitMessages,
-  }: {
+  }: // commitMessages,
+  {
     repo: Repo;
     onImportClick: (repo: Repo) => Promise<void>;
-    commitMessages: CommitMessages;
+    // commitMessages: CommitMessages;
   }) => (
     <div className="p-4 flex flex-col gap-2">
       <div className="flex justify-between items-center">
@@ -74,7 +74,7 @@ const RepoItem = memo(
         </div>
         <Button onClick={() => onImportClick(repo)}>Import</Button>
       </div>
-      {commitMessages[repo.name] && (
+      {/* {commitMessages[repo.name] && (
         <Suspense fallback={<Skeleton className="h-24 w-full" />}>
           <CommitMessages
             messages={(commitMessages[repo.name] as Release[][]).map((group) =>
@@ -82,7 +82,7 @@ const RepoItem = memo(
             )}
           />
         </Suspense>
-      )}
+      )} */}
     </div>
   )
 );
@@ -92,7 +92,7 @@ export default function GitHubRepos({ user }: { user: User }) {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const [commitMessages, setCommitMessages] = useState<CommitMessages>({});
+  // const [commitMessages, setCommitMessages] = useState<CommitMessages>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRepos, setTotalRepos] = useState<number>(0);
   const router = useRouter();
@@ -145,10 +145,10 @@ export default function GitHubRepos({ user }: { user: User }) {
         repo.owner.login,
         repo.name
       );
-      setCommitMessages((prev) => ({
-        ...prev,
-        [repo.name]: groupedMessages,
-      }));
+      // setCommitMessages((prev) => ({
+      //   ...prev,
+      //   [repo.name]: groupedMessages,
+      // }));
       await updateRepository({
         github_id: Number(repo.id),
         user_id: user.id as string,
@@ -202,7 +202,7 @@ export default function GitHubRepos({ user }: { user: User }) {
               key={`${repo.id}-${repo.name}`}
               repo={repo}
               onImportClick={handleImportClick}
-              commitMessages={commitMessages}
+              // commitMessages={commitMessages}
             />
           ))}
         </div>

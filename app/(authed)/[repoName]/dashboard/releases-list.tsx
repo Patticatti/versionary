@@ -103,14 +103,10 @@ export default function ReleasesList({
   repoName: string;
 }) {
   const { user, currentReleases, setCurrentReleases } = useZustandStore();
-  // const [releases, setCurrentReleases] = useState<Release[]>([]);
   useEffect(() => {
     async function getCommits() {
       try {
-        const data: Release[][] = await fetchGroupedCommits(
-          repoOwner,
-          repoName
-        );
+        const data: Release[] = await fetchGroupedCommits(repoOwner, repoName);
         console.log("yes and" + JSON.stringify(data));
         setCurrentReleases(data);
       } catch (error) {

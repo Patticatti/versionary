@@ -4,11 +4,11 @@ import { User } from "@supabase/supabase-js";
 interface AuthedState {
   repos: Repo[];
   currentRepo: Repo | null;
-  currentReleases: Release[][] | null;
+  currentReleases: Release[] | null;
   user?: User;
   loading: boolean;
   setRepos: (r: Repo[]) => void;
-  setCurrentReleases: (r: Release[][]) => void;
+  setCurrentReleases: (r: Release[]) => void;
   setCurrentRepo: (r: Repo) => void;
   setUser: (u: User) => void;
   setLoading: (loading: boolean) => void;
@@ -38,7 +38,7 @@ export const useZustandStore = create<AuthedState>((set, get) => ({
       loading: false,
     }));
   },
-  setCurrentReleases: (r: Release[][]) => {
+  setCurrentReleases: (r: Release[]) => {
     set((state) => ({
       currentReleases: r,
       loading: false,

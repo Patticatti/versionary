@@ -1,6 +1,17 @@
-import { Repo } from "@/db/types";
-import { Commit } from "@/db/types";
-import { Release } from "@/db/types";
+import { Repo, Commit, Release } from "@/db/types";
+
+const timeAgo = (dateString: string) => {
+  const now = new Date();
+  const date = new Date(dateString);
+  const secondsAgo = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (secondsAgo < 60) return `${secondsAgo}s ago`;
+  if (secondsAgo < 3600) return `${Math.floor(secondsAgo / 60)}m ago`;
+  if (secondsAgo < 86400) return `${Math.floor(secondsAgo / 3600)}h ago`;
+  if (secondsAgo < 604800) return `${Math.floor(secondsAgo / 86400)}d ago`;
+  return date.toDateString();
+};
+
 export async function getRepoByName(owner: string, repoName: string) {
   const accessToken = window.localStorage.getItem("oauth_provider_token");
   if (!accessToken) {
@@ -30,13 +41,13 @@ export async function getRepoByName(owner: string, repoName: string) {
 export async function fetchGroupedCommits(
   owner: string,
   repo: string
-): Promise<Release[][]> {
+): Promise<Release[]> {
   const accessToken = window.localStorage.getItem("oauth_provider_token");
   if (!accessToken) {
     throw new Error("User not authenticated or no access token.");
   }
 
-  let allCommits: Release[] = [];
+  let allCommits: Commit[] = [];
   let page = 1;
   const perPage = 100; // GitHub allows up to 100 per request
 
@@ -57,40 +68,33 @@ export async function fetchGroupedCommits(
 
     const commits = await response.json();
     if (commits.length === 0) break; // Stop when no more commits are found
-    const timeAgo = (dateString: string) => {
-      const now = new Date();
-      const date = new Date(dateString);
-      const secondsAgo = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-      if (secondsAgo < 60) return `${secondsAgo}s ago`;
-      if (secondsAgo < 3600) return `${Math.floor(secondsAgo / 60)}m ago`;
-      if (secondsAgo < 86400) return `${Math.floor(secondsAgo / 3600)}h ago`;
-      if (secondsAgo < 604800) return `${Math.floor(secondsAgo / 86400)}d ago`;
-      return date.toDateString();
-    };
-    const formattedCommits: Release[] = commits.map((commit: any) => ({
-      title: `${commit.commit.author.date.split("T")[0]}.${commit.sha.substring(
-        0,
-        7
-      )}`,
-      dateReleased: `${timeAgo(commit.commit.author.date)} by ${
-        commit.commit.author.name
-      }`,
-      branch: commit.committer?.branch || "main",
-      commitHash: commit.sha.substring(0, 7), // First 7 characters of commit hash
-      commitMessage: commit.commit.message, // Commit message
+    const formattedCommits: Commit[] = commits.map((commit: any) => ({
+      commitHash: commit.sha.substring(0, 7),
+      commitMessage: commit.commit.message,
+      date: commit.commit.author.date,
+      author: commit.commit.author.name,
     }));
     allCommits.push(...formattedCommits);
     page++;
   }
-
+  const releases: Release[] = [];
   // No need to reverse, just chunk into groups of 30
-  const groupedCommits: Release[][] = [];
   for (let i = 0; i < allCommits.length; i += 30) {
-    groupedCommits.push(allCommits.slice(i, i + 30));
+    const batch = allCommits.slice(i, i + 30);
+    if (batch.length === 0) continue;
+
+    const latestCommit = batch[0]; // The latest commit is the first one in the batch
+    releases.push({
+      title: `${latestCommit.date.split("T")[0]}.${latestCommit.commitHash}`,
+      dateReleased: `${timeAgo(latestCommit.date)} by ${latestCommit.author}`,
+      branch: "main", // Assuming "main", but this may need to be fetched separately
+      commitHash: latestCommit.commitHash,
+      commitMessage: latestCommit.commitMessage,
+      commits: batch, // Store all commits in this release
+    });
   }
 
-  return groupedCommits;
+  return releases;
 }
 
 export async function fetchCommitMessagesRange(owner: string, repo: string) {
