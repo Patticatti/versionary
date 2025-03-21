@@ -5,7 +5,6 @@ import { fetchGroupedCommits } from "@/utils/github/actions";
 import { Release, Commit } from "@/db/types";
 import { useZustandStore } from "@/state/zustandStore";
 // import ReactMarkdown from "react-markdown";
-// import remarkGfm from "remark-gfm";
 
 export default function EditorPage() {
   const title = usePathname().split("/").pop();
@@ -73,8 +72,6 @@ export default function EditorPage() {
         {commitsData.map((commit) => (
           <div key={commit.commitHash}>
             <h3>{commit.commitMessage}</h3>
-            {/* <p>Author: {commit.author}</p>
-            <p>Date: {commit.date}</p> */}
           </div>
         ))}
       </div>
