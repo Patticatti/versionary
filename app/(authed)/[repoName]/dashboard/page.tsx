@@ -13,7 +13,7 @@ import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
-  const { currentRepo, loading } = useZustandStore();
+  const { currentRepo, loading, currentReleases } = useZustandStore();
   const pathName = usePathname();
   const repoName = pathName.split("/")[1];
 
@@ -25,7 +25,7 @@ export default function DashboardPage() {
           {/* <h1 className="py-6 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
             Project Overview
           </h1> */}
-          {loading ? (
+          {loading || currentReleases?.length === 0 || !currentReleases ? (
             // Show skeletons while loading
             <>
               <Skeleton className="h-72 w-full mb-4" />
