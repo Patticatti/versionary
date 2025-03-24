@@ -144,7 +144,7 @@ export default function GitHubRepos({ user }: { user: User }) {
         await updateRepository({
           github_id: Number(repo.id),
           user_id: user.id as string,
-          name: repo.name,
+          name: repo.name.toLowerCase(),
           owner: repo.owner.login.toLowerCase(),
           html_url: repo.html_url,
           setLoading: setLoading,

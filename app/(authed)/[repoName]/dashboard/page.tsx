@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import { useZustandStore } from "@/state/zustandStore";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Repo } from "@/db/types";
 
 export default function DashboardPage() {
   const { currentRepo, loading, currentReleases } = useZustandStore();
@@ -19,7 +20,11 @@ export default function DashboardPage() {
 
   return (
     <>
-      <DashboardHeader repoName={repoName} isPrivate={currentRepo?.private} />
+      <DashboardHeader
+        repoUrl={currentRepo?.html_url}
+        repoName={repoName}
+        isPrivate={currentRepo?.private}
+      />
       <div className="flex bg-muted/50 flex-1 flex-col items-center gap-4 pt-0">
         <div className="py-6 px-4 md:px-6 lg:px-8 w-full max-w-screen-xl">
           {/* <h1 className="py-6 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
@@ -57,10 +62,12 @@ export default function DashboardPage() {
 }
 function DashboardHeader({
   repoName,
+  repoUrl,
   isPrivate,
 }: {
   repoName: string;
   isPrivate: boolean | undefined;
+  repoUrl: string;
 }) {
   return (
     <header className="bg-muted/50 border-b flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -86,10 +93,13 @@ function DashboardHeader({
           <RotateCcw className="size-4" />
           Update
         </Button>
-        <Button variant="outline" className="!px-5 !rounded-md">
-          <RiGithubFill className="size-5" />
-          Repository
-        </Button>
+        <Link href={repoUrl || "/"} target="_blank">
+          <Button variant="outline" className="!px-5 !rounded-md">
+            <RiGithubFill className="size-5" />
+            Repository
+          </Button>
+        </Link>
+
         <Link href="/editor">
           <Button className="!px-5 !rounded-md">
             Visit

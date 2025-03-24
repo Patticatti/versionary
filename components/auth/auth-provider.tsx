@@ -128,7 +128,6 @@ export default function AuthProvider() {
                 release.commits
                   .map((commit) => `${commit.commit_message}`)
                   .join("\n");
-              console.log(commitsData);
               const changelogSummary = await generateChangelogSummary(
                 commitsData
               );
