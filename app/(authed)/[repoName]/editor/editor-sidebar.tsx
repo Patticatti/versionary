@@ -42,7 +42,7 @@ export default function EditorSidebar() {
                   asChild
                   className={
                     pathName.split("/").pop() === item.title
-                      ? "text-[#1E64EC] hover:!text-[#1E64EC]"
+                      ? "font-medium bg-[#0000001A]/50 hover:bg-[#0000001A]"
                       : ""
                   }
                 >
@@ -81,7 +81,6 @@ export default function EditorSidebar() {
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
-          <SidebarGroupLabel className="mt-4">February 2025</SidebarGroupLabel>
         </SidebarGroup>
       </SidebarContent>
     </div>

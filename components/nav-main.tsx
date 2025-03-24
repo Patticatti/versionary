@@ -63,7 +63,7 @@ export function NavMain() {
               asChild
               className={
                 pathName.split("/").pop() === item.url.slice(1)
-                  ? "text-[#1E64EC] hover:!text-[#1E64EC]"
+                  ? "bg-[#0000001A]/50 hover:bg-[#0000001A]"
                   : ""
               }
             >
