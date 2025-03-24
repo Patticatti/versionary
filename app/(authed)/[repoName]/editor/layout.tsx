@@ -1,13 +1,13 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectGroup,
-  SelectLabel,
   SelectItem,
-} from "@radix-ui/react-select";
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@radix-ui/react-separator";
 import { GitBranch } from "lucide-react";
 import EditorSidebar from "./editor-sidebar";
@@ -15,8 +15,8 @@ import { ReactNode } from "react";
 
 export default function EditorLayout({ children }: { children: ReactNode }) {
   return (
-    <>
-      <header className="border-b border-neutral-200 flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+    <div className="max-h-screen overflow-hidden">
+      <header className="sticky-0 top-0 border-b border-neutral-200 flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger className="-ml-1 group-has-data-[collapsible=icon]/sidebar-wrapper:flex hidden opacity-60" />
           <Separator
@@ -42,10 +42,10 @@ export default function EditorLayout({ children }: { children: ReactNode }) {
           </Select>
         </div>
       </header>
-      <div className="flex flex-1 gap-4 pt-0">
+      <div className="h-full flex gap-4 pt-0 overflow-hidden">
         <EditorSidebar />
-        {children}
+        <div className="flex-1 overflow-y-auto">{children}</div>
       </div>
-    </>
+    </div>
   );
 }

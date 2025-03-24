@@ -91,7 +91,8 @@ export default function AuthProvider() {
       const { data: existingReleases, error } = await supabase
         .from("releases")
         .select("*")
-        .eq("repo_name", currentRepo.name);
+        .eq("repo_name", currentRepo.name)
+        .order("date_released", { ascending: false });
 
       if (error) {
         console.error("Error fetching releases:", error);

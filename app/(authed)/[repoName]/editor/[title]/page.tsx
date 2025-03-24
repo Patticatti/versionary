@@ -21,8 +21,8 @@ export default function EditorPage() {
   interface JsonData {
     date: string;
     title: string;
-    commitMessage: string;
-    commitHash: string;
+    commitMessage?: string;
+    commitHash?: string;
     changes: Change[];
     tags: string[];
   }
@@ -96,9 +96,9 @@ export default function EditorPage() {
       <h1 className="mt-8 mb-12 text-center text-6xl font-manrope font-bold tracking-[-0.02em]">
         Changelog
       </h1>
-      <div className="flex items-start">
+      <div className="flex items-start pb-12">
         {currentRelease && (
-          <p className="text-sm font-semibold text-muted-foreground pe-4">
+          <p className="min-w-36 text-sm font-semibold text-muted-foreground pe-4">
             {toDateString(currentRelease.date_released)}
           </p>
         )}

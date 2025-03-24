@@ -9,6 +9,7 @@ import DeploymentSection from "./deployment-section";
 import ReleasesList from "./releases-list";
 import { usePathname } from "next/navigation";
 import { useZustandStore } from "@/state/zustandStore";
+import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
@@ -92,10 +93,12 @@ function DashboardHeader({
           <RiGithubFill className="size-5" />
           Repository
         </Button>
-        <Button className="!px-5 !rounded-md">
-          Visit
-          <ExternalLink className="size-4" />
-        </Button>
+        <Link href="/editor">
+          <Button className="!px-5 !rounded-md">
+            Visit
+            <ExternalLink className="size-4" />
+          </Button>
+        </Link>
       </div>
     </header>
   );

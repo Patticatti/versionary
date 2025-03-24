@@ -3,7 +3,6 @@
 import {
   SidebarContent,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuAction,
@@ -29,7 +28,7 @@ export default function EditorSidebar() {
   const pathName = usePathname();
   const repoName = pathName.split("/")[1];
   return (
-    <div className="h-full w-[240px] border-r border-neutral-200">
+    <div className="sticky top-0 h-full w-[240px] border-r border-neutral-200">
       <SidebarHeader className="px-5 border-b border-b-neutral-200 py-4 text-md font-semibold flex justify-between gap-4">
         Releases
       </SidebarHeader>

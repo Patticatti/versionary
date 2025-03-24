@@ -25,8 +25,6 @@ export const generateChangelogSummary = async (commitMessages: string) => {
           {
             "date": "Month Day, Year",
             "title": "Version Name.Latest Commit Hash",
-            "commitMessage":"Latest Commit Message",
-            "commitHash":"Latest Commit Hash",
             "changes": [
               {
                 "title": "Change summary",
@@ -63,8 +61,6 @@ export const generateChangelogSummary = async (commitMessages: string) => {
           {
             "date": "January 17, 2025",
             "title": "2025-01-17.42f23m9",
-            "commitMessage":"Merge pull request #8 from Patticatti/patti/add-signin-modal",
-            "commitHash":"8f5a489",
             "changes": [
               {
                 "title": "More granular control of credit grants",
@@ -105,8 +101,6 @@ export const generateChangelogSummary = async (commitMessages: string) => {
           {
             "date": "February 7, 2025",
             "title": "2025-02-07.2h92s8",
-            "commitMessage":"Implement OAuth login with GitHub",
-            "commitHash":"5f7b9d1",
             "changes": [
               {
                 "title": "Audio and Dialogue Updates",
@@ -148,7 +142,7 @@ export const generateChangelogSummary = async (commitMessages: string) => {
         },
       ],
       max_tokens: 1200,
-      temperature: 0.2,
+      temperature: 0,
     }),
   });
 
