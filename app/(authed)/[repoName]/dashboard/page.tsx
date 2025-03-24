@@ -11,7 +11,6 @@ import { usePathname } from "next/navigation";
 import { useZustandStore } from "@/state/zustandStore";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Repo } from "@/db/types";
 
 export default function DashboardPage() {
   const { currentRepo, loading, currentReleases } = useZustandStore();
@@ -21,7 +20,7 @@ export default function DashboardPage() {
   return (
     <>
       <DashboardHeader
-        repoUrl={currentRepo?.html_url}
+        repoUrl={currentRepo?.html_url || "/"}
         repoName={repoName}
         isPrivate={currentRepo?.private}
       />
@@ -93,7 +92,7 @@ function DashboardHeader({
           <RotateCcw className="size-4" />
           Update
         </Button>
-        <Link href={repoUrl || "/"} target="_blank">
+        <Link href={repoUrl} target="_blank">
           <Button variant="outline" className="!px-5 !rounded-md">
             <RiGithubFill className="size-5" />
             Repository
