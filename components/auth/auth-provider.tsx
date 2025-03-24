@@ -6,7 +6,6 @@ import { useZustandStore } from "@/state/zustandStore";
 import { redirect } from "next/navigation";
 import { fetchGroupedCommits } from "@/utils/github/actions";
 import { updateRelease } from "@/utils/github/clientActions";
-import { useRouter } from "next/navigation";
 import { generateChangelogSummary } from "@/utils/chatgpt/actions";
 // import { redirect } from "next/navigation";
 
@@ -20,7 +19,6 @@ export default function AuthProvider() {
     setCurrentReleases,
   } = useZustandStore(); // Add setRepositories state
   const supabase = createClient();
-  const router = useRouter();
 
   useEffect(() => {
     const fetchUserAndRepositories = async () => {
@@ -147,7 +145,7 @@ export default function AuthProvider() {
     };
 
     checkAndUpdateReleases();
-  }, [currentRepo, setLoading]); // Runs when `currentRepo` updates
+  }, [currentRepo]);
 
   return null;
 }

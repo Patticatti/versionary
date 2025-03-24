@@ -80,13 +80,7 @@ function ReleaseCard({
   );
 }
 
-export default function ReleasesList({
-  repoOwner,
-  repoName,
-}: {
-  repoOwner: string;
-  repoName: string;
-}) {
+export default function ReleasesList({ repoName }: { repoName: string }) {
   const { user, currentReleases } = useZustandStore();
 
   return (

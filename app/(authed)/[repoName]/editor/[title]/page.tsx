@@ -46,30 +46,6 @@ export default function EditorPage() {
           if (filteredRelease) {
             setCurrentRelease(filteredRelease);
             setCommitsData(filteredRelease.changelog_summary);
-            // const commit_messages = filteredRelease.commits
-            //   .map((commit) => commit.commit_message)
-            //   .join("\n");
-
-            // const prompt = `Generate a changelog from this. Give it a title that summarizes all the changes made. Divide these commits into categories with bullet points. Try to aim for 3-5 categories: \n${commit_messages}`;
-
-            // // Call your API that interacts with ChatGPT (or use OpenAI's API directly)
-            // const response = await fetch("/api/chatgpt", {
-            //   method: "POST",
-            //   headers: {
-            //     "Content-Type": "application/json",
-            //   },
-            //   body: JSON.stringify({ prompt }),
-            // });
-
-            // if (response.ok) {
-            //   const data = await response.json();
-            //   setChangelogMarkdown(data.summarizedChangelog);
-            // } else {
-            //   console.error(
-            //     "Error summarizing changelog:",
-            //     response.statusText
-            //   );
-            // }
           } else {
             console.error(
               "Release not found for title:",
@@ -123,7 +99,7 @@ export default function EditorPage() {
           ))}
           <div className="flex items-center">
             {jsonData.tags &&
-              jsonData.tags.map((tag, index) => (
+              jsonData.tags.map((tag) => (
                 <Badge
                   key={tag}
                   variant="secondary"

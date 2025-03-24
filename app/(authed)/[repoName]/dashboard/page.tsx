@@ -42,7 +42,6 @@ export default function DashboardPage() {
                 Releases
               </h2>
               <ReleasesList
-                repoOwner={user?.user_metadata.user_name}
                 repoName={repoName}
               />
             </>

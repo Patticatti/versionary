@@ -37,7 +37,7 @@ export function NavUser() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="cursor-pointer data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
@@ -109,11 +109,11 @@ export function NavUser() {
               <Button type="submit">Log out</Button>
             </form> */}
 
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
               <form action="/auth/signout" method="post">
                 <button
                   type="submit"
-                  className="inline-flex items-center cursor-pointer gap-2"
+                  className="inline-flex items-center gap-2"
                 >
                   <LogOut />
                   Log out

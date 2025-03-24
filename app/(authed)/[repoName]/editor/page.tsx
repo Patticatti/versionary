@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { Release } from "@/db/types";
 import { useZustandStore } from "@/state/zustandStore";
 import { Badge } from "@/components/ui/badge";
 
@@ -91,7 +89,7 @@ export default function EditorPage() {
 
             <div className="flex items-center">
               {release.tags &&
-                release.tags.map((tag, index) => (
+                release.tags.map((tag) => (
                   <Badge
                     key={tag}
                     variant="secondary"
