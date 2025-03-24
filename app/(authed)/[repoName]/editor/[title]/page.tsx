@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Release, Commit } from "@/db/types";
+import { Commit } from "@/db/types";
 import { useZustandStore } from "@/state/zustandStore";
 // import ReactMarkdown from "react-markdown";
 // import remarkGfm from "remark-gfm";
@@ -9,20 +9,21 @@ import { useZustandStore } from "@/state/zustandStore";
 export default function EditorPage() {
   const title = usePathname().split("/").pop();
   const { currentRepo, currentReleases } = useZustandStore();
-  const [commitsData, setCommitsData] = useState<Commit[] | null>(null);
+  const [commitsData, setCommitsData] = useState<string | null>(null);
   // const [changelogMarkdown, setChangelogMarkdown] = useState<string | null>(
   //   null
   // );
 
   useEffect(() => {
     async function getCommits() {
-      if (title && currentRepo && currentReleases) {
+      if (currentReleases?.length === 0 || currentReleases === null) return;
+      if (title && currentRepo) {
         try {
           const filteredRelease = currentReleases.find(
             (release) => release.title === title
           );
           if (filteredRelease) {
-            setCommitsData(filteredRelease.commits);
+            setCommitsData(filteredRelease.changelog_summary);
             // const commit_messages = filteredRelease.commits
             //   .map((commit) => commit.commit_message)
             //   .join("\n");
@@ -48,7 +49,12 @@ export default function EditorPage() {
             //   );
             // }
           } else {
-            console.error("Release not found for title:", title);
+            console.error(
+              "Release not found for title:",
+              title,
+              "current releases: ",
+              currentReleases
+            );
           }
         } catch (error) {
           console.error("Error fetching commits:", error);
@@ -57,22 +63,16 @@ export default function EditorPage() {
     }
 
     getCommits();
-  }, [title, currentRepo]);
+  }, [title, currentRepo, currentReleases]);
 
   if (!commitsData) return <div>Loading..</div>;
 
+  const jsonData = JSON.parse(commitsData);
+
   return (
     <div>
-      <h1>{title}</h1>
-      <div>
-        {commitsData.map((commit) => (
-          <div key={commit.commit_hash}>
-            <h3>{commit.commit_message}</h3>
-            {/* <p>Author: {commit.author}</p>
-            <p>Date: {commit.date}</p> */}
-          </div>
-        ))}
-      </div>
+      <h1>{jsonData?.title}</h1>
+      <p>{jsonData.date}</p>
     </div>
   );
 }

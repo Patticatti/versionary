@@ -6,6 +6,8 @@ import { useZustandStore } from "@/state/zustandStore";
 import { redirect } from "next/navigation";
 import { fetchGroupedCommits } from "@/utils/github/actions";
 import { updateRelease } from "@/utils/github/clientActions";
+import { useRouter } from "next/navigation";
+import { generateChangelogSummary } from "@/utils/chatgpt/actions";
 // import { redirect } from "next/navigation";
 
 export default function AuthProvider() {
@@ -18,6 +20,7 @@ export default function AuthProvider() {
     setCurrentReleases,
   } = useZustandStore(); // Add setRepositories state
   const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserAndRepositories = async () => {
@@ -111,19 +114,33 @@ export default function AuthProvider() {
         (release) => !existingReleaseTitles.has(release.title)
       );
 
-      if (releasesToUpdate.length > 0) {
+      if (releasesToUpdate.length > 0 && !currentRepo.auto_update) {
         console.log(`Updating ${releasesToUpdate.length} new releases...`);
 
         // Call updateRelease for each new release
         await Promise.all(
-          releasesToUpdate.map((release) =>
+          releasesToUpdate.map(async (release) => {
+            if (!release.changelog_summary) {
+              console.log(
+                `Changelog summary missing for release: ${release.title}, generating one...`
+              );
+              const commitsData =
+                `title: ${release.title}\n date: ${release.date_released}\n` +
+                release.commits
+                  .map((commit) => `${commit.commit_message}`)
+                  .join("\n");
+              console.log(commitsData);
+              const changelogSummary = await generateChangelogSummary(
+                commitsData
+              );
+              release.changelog_summary = changelogSummary;
+            }
             updateRelease({
               ...release,
               setLoading: setLoading,
-            })
-          )
+            });
+          })
         );
-
         console.log("Releases updated successfully!");
       }
     };

@@ -7,6 +7,7 @@ export interface Repo {
   html_url: string;
   created_at?: string | Date;
   private?: boolean;
+  auto_update: boolean;
 }
 
 // export interface Commit {

@@ -145,7 +145,7 @@ export default function GitHubRepos({ user }: { user: User }) {
           github_id: Number(repo.id),
           user_id: user.id as string,
           name: repo.name,
-          owner: repo.owner.login,
+          owner: repo.owner.login.toLowerCase(),
           html_url: repo.html_url,
           setLoading: setLoading,
         });
