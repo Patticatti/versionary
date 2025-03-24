@@ -81,10 +81,9 @@ export default function AuthProvider() {
   }, [setUser, setLoading, reset, setRepos, supabase]);
 
   useEffect(() => {
-    console.log(currentRepo);
     const checkAndUpdateReleases = async () => {
-      if (!currentRepo) return;
-
+      if (!currentRepo || !currentRepo.owner?.login) return;
+      console.log(currentRepo);
       // Fetch existing releases for the repository
       const { data: existingReleases, error } = await supabase
         .from("releases")
