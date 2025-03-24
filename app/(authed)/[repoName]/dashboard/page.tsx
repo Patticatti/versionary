@@ -13,7 +13,7 @@ import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
-  const { user, currentRepo, loading } = useZustandStore();
+  const { currentRepo, loading } = useZustandStore();
   const pathName = usePathname();
   const repoName = pathName.split("/")[1];
 
@@ -41,9 +41,7 @@ export default function DashboardPage() {
               <h2 className="pt-9 pb-4 font-manrope font-bold text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]">
                 Releases
               </h2>
-              <ReleasesList
-                repoName={repoName}
-              />
+              <ReleasesList repoName={repoName} />
             </>
           )}
         </div>
