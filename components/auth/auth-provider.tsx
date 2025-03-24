@@ -9,8 +9,14 @@ import { updateRelease } from "@/utils/github/clientActions";
 // import { redirect } from "next/navigation";
 
 export default function AuthProvider() {
-  const { setUser, setLoading, reset, setRepos, currentRepo } =
-    useZustandStore(); // Add setRepositories state
+  const {
+    setUser,
+    setLoading,
+    reset,
+    setRepos,
+    currentRepo,
+    setCurrentReleases,
+  } = useZustandStore(); // Add setRepositories state
   const supabase = createClient();
 
   useEffect(() => {
@@ -75,33 +81,35 @@ export default function AuthProvider() {
   }, [setUser, setLoading, reset, setRepos, supabase]);
 
   useEffect(() => {
+    console.log(currentRepo);
     const checkAndUpdateReleases = async () => {
       if (!currentRepo) return;
 
       // Fetch existing releases for the repository
       const { data: existingReleases, error } = await supabase
         .from("releases")
-        .select("commit_hash") // Only fetch commit_hash for comparison
+        .select("*")
         .eq("repo_name", currentRepo.name);
 
       if (error) {
         console.error("Error fetching releases:", error);
         return;
       }
+      setCurrentReleases(existingReleases || []);
 
-      const existingCommitHashes = new Set(
-        existingReleases?.map((release) => release.commit_hash)
+      const existingReleaseTitles = new Set(
+        existingReleases?.map((release) => release.title)
       );
 
       // Fetch new releases
       const newReleases = await fetchGroupedCommits(
-        currentRepo.owner.login,
+        currentRepo.owner.login.toLowerCase(),
         currentRepo.name
       );
 
       // Filter out releases that already exist
       const releasesToUpdate = newReleases.filter(
-        (release) => !existingCommitHashes.has(release.commit_hash)
+        (release) => !existingReleaseTitles.has(release.title)
       );
 
       if (releasesToUpdate.length > 0) {

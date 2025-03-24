@@ -21,6 +21,7 @@ export default function updateRepository({
 }) {
   return new Promise<void>(async (resolve, reject) => {
     const supabase = createClient();
+    console.log;
     setLoading(true);
 
     try {
@@ -28,7 +29,7 @@ export default function updateRepository({
         user_id,
         github_id,
         name,
-        owner: { login: owner },
+        owner,
         html_url,
         updated_at: new Date().toISOString(),
       };

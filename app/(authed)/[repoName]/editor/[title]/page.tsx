@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { fetchGroupedCommits } from "@/utils/github/actions";
 import { Release, Commit } from "@/db/types";
 import { useZustandStore } from "@/state/zustandStore";
 // import ReactMarkdown from "react-markdown";
@@ -9,7 +8,7 @@ import { useZustandStore } from "@/state/zustandStore";
 
 export default function EditorPage() {
   const title = usePathname().split("/").pop();
-  const { currentRepo } = useZustandStore();
+  const { currentRepo, currentReleases } = useZustandStore();
   const [commitsData, setCommitsData] = useState<Commit[] | null>(null);
   // const [changelogMarkdown, setChangelogMarkdown] = useState<string | null>(
   //   null
@@ -17,13 +16,9 @@ export default function EditorPage() {
 
   useEffect(() => {
     async function getCommits() {
-      if (title && currentRepo) {
+      if (title && currentRepo && currentReleases) {
         try {
-          const data: Release[] = await fetchGroupedCommits(
-            currentRepo.owner.login,
-            currentRepo.name
-          );
-          const filteredRelease = data.find(
+          const filteredRelease = currentReleases.find(
             (release) => release.title === title
           );
           if (filteredRelease) {

@@ -62,7 +62,7 @@ function ReleaseCard({
   repoName,
 }: Release & { repoName: string }) {
   return (
-    <div className="flex items-center gap-2 px-5 py-4 border-b">
+    <div className="flex items-center gap-2 px-5 py-4 border-b last:border-none">
       <div className="flex gap-2 min-w-1/3">
         <File className="size-4 shrink-0 mr-1 text-muted-foreground" />
         <div className="overflow-hidden mr-8">
@@ -107,21 +107,21 @@ export default function ReleasesList({
   repoOwner: string;
   repoName: string;
 }) {
-  const { user, currentReleases, setCurrentReleases } = useZustandStore();
-  useEffect(() => {
-    async function getCommits() {
-      try {
-        const data: Release[] = await fetchGroupedCommits(repoOwner, repoName);
-        setCurrentReleases(data);
-      } catch (error) {
-        console.error("Error fetching commits:", error);
-      }
-    }
+  const { user, currentReleases } = useZustandStore();
+  // useEffect(() => {
+  //   async function getCommits() {
+  //     try {
+  //       const data: Release[] = await fetchGroupedCommits(repoOwner, repoName);
+  //       setCurrentReleases(data);
+  //     } catch (error) {
+  //       console.error("Error fetching commits:", error);
+  //     }
+  //   }
 
-    if (repoOwner && repoName) {
-      getCommits();
-    }
-  }, [repoOwner, repoName, setCurrentReleases]);
+  //   if (repoOwner && repoName) {
+  //     getCommits();
+  //   }
+  // }, [repoOwner, repoName, setCurrentReleases]);
 
   return (
     <>
