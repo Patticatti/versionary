@@ -24,7 +24,7 @@ export const generateChangelogSummary = async (commitMessages: string) => {
           The JSON should follow this format:
           {
             "date": "Month Day, Year",
-            "title": "Version Name in Date form like 2025-01-17.version",
+            "title": "Version Name.Latest Commit Hash",
             "commitMessage":"Latest Commit Message",
             "commitHash":"Latest Commit Hash",
             "changes": [
@@ -32,17 +32,28 @@ export const generateChangelogSummary = async (commitMessages: string) => {
                 "title": "Change summary",
                 "changes": [
                   "Change 1",
-                  "Change 2"
+                  "Change 2",
+                  "Change 3"
+                ]
+              },
+              {
+                "title": "Change 2 summary",
+                "changes": [
+                  "Change 1",
+                  "Change 2",
+                  "Change 3"
                 ]
               },
               {
                 "title": "Additional updates",
                 "changes": [
                   "Change 1",
-                  "Change 2"
+                  "Change 2",
+                  "Change 3",
                 ]
-              }
-            ]
+              },
+            ],
+            "tags":["Product", "Feature"]
           }
             
           **Important:** For each change list under a change category, include a maximum of 3 changes only. 
@@ -51,7 +62,7 @@ export const generateChangelogSummary = async (commitMessages: string) => {
           Example Output:
           {
             "date": "January 17, 2025",
-            "title": "2025-01-17.version",
+            "title": "2025-01-17.42f23m9",
             "commitMessage":"Merge pull request #8 from Patticatti/patti/add-signin-modal",
             "commitHash":"8f5a489",
             "changes": [
@@ -93,7 +104,7 @@ export const generateChangelogSummary = async (commitMessages: string) => {
           Example 2 Output:
           {
             "date": "February 7, 2025",
-            "title": "2025-02-07.version",
+            "title": "2025-02-07.2h92s8",
             "commitMessage":"Implement OAuth login with GitHub",
             "commitHash":"5f7b9d1",
             "changes": [

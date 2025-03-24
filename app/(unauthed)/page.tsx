@@ -17,7 +17,7 @@ export default async function Home() {
         Generate a Changelog using AI
       </h1>
       {user ? (
-        <Link href="/generate">
+        <Link href="/dashboard">
           <Button className="relative text-lg p-6 !px-6 gap-3 cursor-pointer w-full lg:w-fit">
             Go to dashboard
             <MoveRight />
