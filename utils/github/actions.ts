@@ -69,8 +69,8 @@ export async function fetchGroupedCommits(
     const commits = await response.json();
     if (commits.length === 0) break; // Stop when no more commits are found
     const formattedCommits: Commit[] = commits.map((commit: any) => ({
-      commitHash: commit.sha.substring(0, 7),
-      commitMessage: commit.commit.message,
+      commit_hash: commit.sha.substring(0, 7),
+      commit_message: commit.commit.message,
       date: commit.commit.author.date,
       author: commit.commit.author.name,
     }));
@@ -84,11 +84,14 @@ export async function fetchGroupedCommits(
 
     const latestCommit = batch[0]; // The latest commit is the first one in the batch
     releases.push({
-      title: `${latestCommit.date.split("T")[0]}.${latestCommit.commitHash}`,
-      dateReleased: `${timeAgo(latestCommit.date)} by ${latestCommit.author}`,
+      title: `${latestCommit.date.split("T")[0]}.${latestCommit.commit_hash}`,
+      date_released: latestCommit.date,
+      repo_name: repo,
+      commit_author: latestCommit.author,
+      changelog_summary: null,
       branch: "main", // Assuming "main", but this may need to be fetched separately
-      commitHash: latestCommit.commitHash,
-      commitMessage: latestCommit.commitMessage,
+      commit_hash: latestCommit.commit_hash,
+      commit_message: latestCommit.commit_message,
       commits: batch, // Store all commits in this release
     });
   }

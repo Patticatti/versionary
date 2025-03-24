@@ -9,7 +9,7 @@ interface RepoContextType {
   loading: boolean;
 }
 
-// Create the context with the defined type
+// Provides Current Releases, Current Repo, and current data.
 const RepoContext = createContext<RepoContextType | undefined>(undefined);
 
 export const useRepo = () => useContext(RepoContext);

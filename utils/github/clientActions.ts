@@ -2,6 +2,7 @@
 
 import { SetStateAction } from "react";
 import { createClient } from "../supabase/client";
+import { Release } from "@/db/types";
 
 export default function updateRepository({
   github_id,
@@ -35,6 +36,55 @@ export default function updateRepository({
       const { error } = await supabase
         .from("repositories")
         .upsert([repositoryData], { onConflict: "github_id" });
+
+      if (error) {
+        console.error("Supabase error:", error.message);
+
+        throw new Error(error.message);
+      }
+
+      resolve();
+    } catch (error) {
+      console.error("Error updating repository:", error);
+      reject(error);
+    } finally {
+      setLoading(false);
+    }
+  });
+}
+
+export function updateRelease({
+  repo_name,
+  title,
+  date_released,
+  branch,
+  commit_author,
+  commit_hash,
+  commit_message,
+  commits,
+  changelog_summary,
+  setLoading,
+}: Release & { setLoading: (value: boolean) => void }) {
+  return new Promise<void>(async (resolve, reject) => {
+    const supabase = createClient();
+    setLoading(true);
+    try {
+      const releaseData = {
+        repo_name,
+        title,
+        date_released,
+        branch,
+        commit_author,
+        commit_hash,
+        commit_message,
+        commits,
+        changelog_summary,
+        updated_at: new Date().toISOString(),
+      };
+
+      const { error } = await supabase
+        .from("releases")
+        .upsert([releaseData], { onConflict: "title" });
 
       if (error) {
         console.error("Supabase error:", error.message);

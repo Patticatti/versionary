@@ -30,17 +30,20 @@ export interface Repo {
 // }
 
 export interface Commit {
-  commitHash: string;
-  commitMessage: string;
+  commit_hash: string;
+  commit_message: string;
   date: string;
   author: string;
 }
 
 export interface Release {
+  repo_name: string;
   title: string;
-  dateReleased: string;
+  date_released: string;
   branch: string;
-  commitHash: string;
-  commitMessage: string;
+  commit_author: string;
+  commit_hash: string;
+  commit_message: string;
   commits: Commit[];
+  changelog_summary: string | null;
 }

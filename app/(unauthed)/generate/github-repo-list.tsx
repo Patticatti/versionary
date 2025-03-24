@@ -91,7 +91,7 @@ export default function GitHubRepos({ user }: { user: User }) {
   );
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  // const [commitMessages, setCommitMessages] = useState<CommitMessages>({});
+  // const [commit_messages, setCommitMessages] = useState<CommitMessages>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRepos, setTotalRepos] = useState<number>(0);
   const router = useRouter();

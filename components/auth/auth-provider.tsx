@@ -3,10 +3,14 @@
 import { useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useZustandStore } from "@/state/zustandStore";
+import { redirect } from "next/navigation";
+import { fetchGroupedCommits } from "@/utils/github/actions";
+import { updateRelease } from "@/utils/github/clientActions";
 // import { redirect } from "next/navigation";
 
 export default function AuthProvider() {
-  const { setUser, setLoading, reset, setRepos } = useZustandStore(); // Add setRepositories state
+  const { setUser, setLoading, reset, setRepos, currentRepo } =
+    useZustandStore(); // Add setRepositories state
   const supabase = createClient();
 
   useEffect(() => {
@@ -21,15 +25,15 @@ export default function AuthProvider() {
         setUser(user);
 
         // Fetch repositories for this user
-        const { data: repositories, error } = await supabase
+        const { data: repositories } = await supabase
           .from("repositories") // Replace with your actual table name
           .select("*") // Select all columns, adjust if needed
           .eq("user_id", user.id); // Filter by user_id
 
-        if (error) {
-          console.error("Error fetching repositories:", error.message);
+        if (repositories?.length === 0 || repositories === null) {
+          redirect("/generate");
         } else {
-          setRepos(repositories); // Store repositories in Zustand
+          setRepos(repositories);
         }
       } else {
         setLoading(false);
@@ -69,6 +73,56 @@ export default function AuthProvider() {
       authListener.subscription.unsubscribe();
     };
   }, [setUser, setLoading, reset, setRepos, supabase]);
+
+  useEffect(() => {
+    const checkAndUpdateReleases = async () => {
+      if (!currentRepo) return;
+
+      // Fetch existing releases for the repository
+      const { data: existingReleases, error } = await supabase
+        .from("releases")
+        .select("commit_hash") // Only fetch commit_hash for comparison
+        .eq("repo_name", currentRepo.name);
+
+      if (error) {
+        console.error("Error fetching releases:", error);
+        return;
+      }
+
+      const existingCommitHashes = new Set(
+        existingReleases?.map((release) => release.commit_hash)
+      );
+
+      // Fetch new releases
+      const newReleases = await fetchGroupedCommits(
+        currentRepo.owner.login,
+        currentRepo.name
+      );
+
+      // Filter out releases that already exist
+      const releasesToUpdate = newReleases.filter(
+        (release) => !existingCommitHashes.has(release.commit_hash)
+      );
+
+      if (releasesToUpdate.length > 0) {
+        console.log(`Updating ${releasesToUpdate.length} new releases...`);
+
+        // Call updateRelease for each new release
+        await Promise.all(
+          releasesToUpdate.map((release) =>
+            updateRelease({
+              ...release,
+              setLoading: setLoading,
+            })
+          )
+        );
+
+        console.log("Releases updated successfully!");
+      }
+    };
+
+    checkAndUpdateReleases();
+  }, [currentRepo, setLoading]); // Runs when `currentRepo` updates
 
   return null;
 }

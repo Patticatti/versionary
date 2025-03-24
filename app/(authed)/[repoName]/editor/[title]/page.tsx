@@ -28,11 +28,11 @@ export default function EditorPage() {
           );
           if (filteredRelease) {
             setCommitsData(filteredRelease.commits);
-            // const commitMessages = filteredRelease.commits
-            //   .map((commit) => commit.commitMessage)
+            // const commit_messages = filteredRelease.commits
+            //   .map((commit) => commit.commit_message)
             //   .join("\n");
 
-            // const prompt = `Generate a changelog from this. Give it a title that summarizes all the changes made. Divide these commits into categories with bullet points. Try to aim for 3-5 categories: \n${commitMessages}`;
+            // const prompt = `Generate a changelog from this. Give it a title that summarizes all the changes made. Divide these commits into categories with bullet points. Try to aim for 3-5 categories: \n${commit_messages}`;
 
             // // Call your API that interacts with ChatGPT (or use OpenAI's API directly)
             // const response = await fetch("/api/chatgpt", {
@@ -71,8 +71,8 @@ export default function EditorPage() {
       <h1>{title}</h1>
       <div>
         {commitsData.map((commit) => (
-          <div key={commit.commitHash}>
-            <h3>{commit.commitMessage}</h3>
+          <div key={commit.commit_hash}>
+            <h3>{commit.commit_message}</h3>
             {/* <p>Author: {commit.author}</p>
             <p>Date: {commit.date}</p> */}
           </div>

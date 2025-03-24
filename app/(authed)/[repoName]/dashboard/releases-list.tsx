@@ -17,48 +17,48 @@ import { Release } from "@/db/types";
 // const releases: Release[] = [
 //   {
 //     title: "2025-02-24.acacia",
-//     dateReleased: "4h ago by the-sigma-gamer",
+//     date_released: "4h ago by the-sigma-gamer",
 //     branch: "main",
-//     commitHash: "8f5a489",
-//     commitMessage:
+//     commit_hash: "8f5a489",
+//     commit_message:
 //       "Merge pull request #8 from Patticatti/patti/add-signin-modal",
 //   },
 //   {
 //     title: "2025-02-20.baobab",
-//     dateReleased: "1d ago by dev_master",
+//     date_released: "1d ago by dev_master",
 //     branch: "dev",
-//     commitHash: "a1c2d3e",
-//     commitMessage: "Fix issue #12 - improve button styling",
+//     commit_hash: "a1c2d3e",
+//     commit_message: "Fix issue #12 - improve button styling",
 //   },
 //   {
 //     title: "2025-02-15.cedar",
-//     dateReleased: "3d ago by coderX",
+//     date_released: "3d ago by coderX",
 //     branch: "feature/auth",
-//     commitHash: "5f7b9d1",
-//     commitMessage: "Implement OAuth login with GitHub",
+//     commit_hash: "5f7b9d1",
+//     commit_message: "Implement OAuth login with GitHub",
 //   },
 //   {
 //     title: "2025-02-10.dogwood",
-//     dateReleased: "1w ago by anotherDev",
+//     date_released: "1w ago by anotherDev",
 //     branch: "hotfix",
-//     commitHash: "3e4a5b6",
-//     commitMessage: "Hotfix: resolve login issue for Safari users",
+//     commit_hash: "3e4a5b6",
+//     commit_message: "Hotfix: resolve login issue for Safari users",
 //   },
 //   {
 //     title: "2025-02-05.elm",
-//     dateReleased: "2w ago by frontend_wizard",
+//     date_released: "2w ago by frontend_wizard",
 //     branch: "ui-updates",
-//     commitHash: "d8f9e0a",
-//     commitMessage: "Refactor UI components for better accessibility",
+//     commit_hash: "d8f9e0a",
+//     commit_message: "Refactor UI components for better accessibility",
 //   },
 // ];
 
 function ReleaseCard({
   title,
-  dateReleased,
+  date_released,
   branch,
-  commitHash,
-  commitMessage,
+  commit_hash,
+  commit_message,
   repoName,
 }: Release & { repoName: string }) {
   return (
@@ -66,11 +66,14 @@ function ReleaseCard({
       <div className="flex gap-2 min-w-1/3">
         <File className="size-4 shrink-0 mr-1 text-muted-foreground" />
         <div className="overflow-hidden mr-8">
-          <Link href={`/${repoName}/editor/${title}`} className="text-md font-semibold tracking-tight leading-[1em] cursor-pointer">
-              {title}
+          <Link
+            href={`/${repoName}/editor/${title}`}
+            className="text-md font-semibold tracking-tight leading-[1em] cursor-pointer"
+          >
+            {title}
           </Link>
           <p className="mt-2 text-sm text-muted-foreground truncate">
-            {dateReleased}
+            {date_released}
           </p>
         </div>
       </div>
@@ -87,8 +90,8 @@ function ReleaseCard({
           className="!justify-start w-full !px-0 py-0 h-fit flex font-normal items-center gap-3 text-foreground max-w-xs text-sm"
         >
           <GitCommitHorizontal className="size-4 shrink-0 opacity-70" />
-          <p className="font-mono">{commitHash}</p>
-          <p className="truncate">{commitMessage}</p>
+          <p className="font-mono">{commit_hash}</p>
+          <p className="truncate">{commit_message}</p>
         </Button>
       </div>
 
@@ -140,7 +143,7 @@ export default function ReleasesList({
       <div className="bg-background border rounded-xl">
         {currentReleases?.map((release) => (
           <ReleaseCard
-            key={release.commitHash}
+            key={release.commit_hash}
             {...release}
             repoName={repoName}
           />
