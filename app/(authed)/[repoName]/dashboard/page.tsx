@@ -99,7 +99,7 @@ function DashboardHeader({
           </Button>
         </Link>
 
-        <Link href="/editor">
+        <Link href={`/${repoName}/editor`}>
           <Button className="!px-5 !rounded-md">
             Visit
             <ExternalLink className="size-4" />

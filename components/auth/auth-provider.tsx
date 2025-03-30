@@ -119,28 +119,28 @@ export default function AuthProvider() {
         // Call updateRelease for each new release
         await Promise.all(
           releasesToUpdate.map(async (release) => {
-            if (!release.changelog_summary) {
-              console.log(
-                `Changelog summary missing for release: ${release.title}, generating one...`
-              );
-              const commitsData =
-                `title: ${release.title}\n date: ${release.date_released}\n` +
-                release.commits
-                  .map((commit) => `${commit.commit_message}`)
-                  .join("\n");
-              const changelogSummary = await generateChangelogSummary(
-                commitsData
-              );
-              release.changelog_summary = changelogSummary;
-            }
+            // if (!release.changelog_summary) {
+            //   console.log(
+            //     `Changelog summary missing for release: ${release.title}, generating one...`
+            //   );
+            //   const commitsData =
+            //     `title: ${release.title}\n date: ${release.date_released}\n` +
+            //     release.commits
+            //       .map((commit) => `${commit.commit_message}`)
+            //       .join("\n");
+            //   const changelogSummary = await generateChangelogSummary(
+            //     commitsData
+            //   );
+            //   release.changelog_summary = changelogSummary;
+            // }
             updateRelease({
               ...release,
               setLoading: setLoading,
             });
           })
         );
-        console.log("Releases updated successfully!");
       }
+      console.log("Releases updated successfully!");
     };
 
     checkAndUpdateReleases();

@@ -10,26 +10,6 @@ export interface Repo {
   auto_update: boolean;
 }
 
-// export interface Commit {
-//   sha: string;
-//   commit: {
-//     author: {
-//       name: string;
-//       email: string;
-//     };
-//     name: string;
-//     email: string;
-//     date: string;
-//     message: string;
-//   };
-//   author?: {
-//     login: string;
-//   };
-//   committer?: {
-//     login: string;
-//   };
-// }
-
 export interface Commit {
   commit_hash: string;
   commit_message: string;

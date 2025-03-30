@@ -68,7 +68,7 @@ export default function EditorPage() {
   const jsonData: JsonData = JSON.parse(commitsData);
 
   return (
-    <div className="flex flex-col flex-1 px-4 md:px-6 lg:px-8">
+    <div className="relative flex flex-col flex-1 px-4 md:px-6 lg:px-8">
       <h1 className="mt-8 mb-12 text-center text-6xl font-manrope font-bold tracking-[-0.02em]">
         Changelog
       </h1>
@@ -86,11 +86,11 @@ export default function EditorPage() {
           </h2>
           {/* Loop over each change section */}
           {jsonData.changes.map((change, index) => (
-            <div key={index}>
+            <div key={index} className="mb-6">
               <h3 className="mb-2 text-md font-semibold font-manrope">
                 {change.title}
               </h3>
-              <ul className="text-sm pl-4 list-disc text-muted-foreground leading-[1.5em]">
+              <ul className="text-sm pl-4 list-disc text-foreground opacity-80 leading-[1.5em] space-y-1">
                 {change.changes.map((item, i) => (
                   <li key={i}>{item}</li>
                 ))}
@@ -108,7 +108,6 @@ export default function EditorPage() {
                   {tag}
                 </Badge>
               ))}
-            <p className="px-4 text-xs">Product</p>
           </div>
         </div>
       </div>
