@@ -99,7 +99,7 @@ export const generateChangelogSummary = async (commitMessages: string) => {
            Return **only** valid JSON. Do not include explanations or extra text.`,
         },
       ],
-      max_tokens: 1000,
+      max_tokens: 700,
       temperature: 0,
     }),
   });
