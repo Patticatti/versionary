@@ -5,7 +5,6 @@ import LoginButton from "@/components/login-button";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
-import Property1Default from "./modal";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -17,7 +16,6 @@ export default async function Home() {
       <h1 className="mb-8 font-manrope pt-24 font-semibold text-7xl tracking-tight max-w-2xl text-center mx-auto">
         Generate a Changelog using AI
       </h1>
-      <Property1Default />
       {user ? (
         <Link href="/dashboard">
           <Button className="relative text-lg p-6 !px-6 gap-3 cursor-pointer w-full lg:w-fit">
