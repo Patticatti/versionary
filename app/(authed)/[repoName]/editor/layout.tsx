@@ -13,7 +13,6 @@ import { ExternalLink, GitBranch } from "lucide-react";
 import EditorSidebar from "./editor-sidebar";
 import { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default function EditorLayout({ children }: { children: ReactNode }) {
   return (
